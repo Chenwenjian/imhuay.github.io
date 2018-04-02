@@ -99,18 +99,18 @@
 
 
 
-  <meta name="description" content="一个帮助你快速搭建 Tensorflow 深度学习框架的模板，帮你把你的注意力集中到模型本身，忘掉变量初始化、保存模型、加载模型……这些无聊的操作吧！">
-<meta name="keywords" content="开源项目">
+  <meta name="description" content="一个帮助你快速搭建 Tensorflow 深度学习框架的模板；本质上是一个简化的`tf.estimator.Estimator`">
+<meta name="keywords" content="开源项目,tensorflow">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 tensorflow_template 快速搭建你的 DL 项目">
 <meta property="og:url" content="http://yoursite.com/2018/03/27/proj-tensorflow-template/index.html">
 <meta property="og:site_name" content="huay&#39;s Blog">
-<meta property="og:description" content="一个帮助你快速搭建 Tensorflow 深度学习框架的模板，帮你把你的注意力集中到模型本身，忘掉变量初始化、保存模型、加载模型……这些无聊的操作吧！">
+<meta property="og:description" content="一个帮助你快速搭建 Tensorflow 深度学习框架的模板；本质上是一个简化的`tf.estimator.Estimator`">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-27T15:28:22.787Z">
+<meta property="og:updated_time" content="2018-04-02T03:22:51.421Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 tensorflow_template 快速搭建你的 DL 项目">
-<meta name="twitter:description" content="一个帮助你快速搭建 Tensorflow 深度学习框架的模板，帮你把你的注意力集中到模型本身，忘掉变量初始化、保存模型、加载模型……这些无聊的操作吧！">
+<meta name="twitter:description" content="一个帮助你快速搭建 Tensorflow 深度学习框架的模板；本质上是一个简化的`tf.estimator.Estimator`">
 
 
 
@@ -346,7 +346,7 @@
           
 
           
-              <div class="post-description">一个帮助你快速搭建 Tensorflow 深度学习框架的模板，帮你把你的注意力集中到模型本身，忘掉变量初始化、保存模型、加载模型……这些无聊的操作吧！</div>
+              <div class="post-description">一个帮助你快速搭建 Tensorflow 深度学习框架的模板；本质上是一个简化的`tf.estimator.Estimator`</div>
           
 
         </div>
@@ -362,10 +362,29 @@
       
 
       
-        <p>先贴上这个开源项目的地址: <a href="https://github.com/imhuay/tensorflow_template" target="_blank" rel="noopener">GirHub - tensorflow_template</a></p>
-<p>里面的 README 已经演示了一个示例来说明这个框架的用法。</p>
-<p>下面再简单介绍下这个框架</p>
-<p>未完…</p>
+        <p>先贴上这个项目的地址: <a href="https://github.com/imhuay/tensorflow_template" target="_blank" rel="noopener">GitHub - tensorflow_template</a>，目前发布了两个版本</p>
+<h2 id="第一版"><a href="#第一版" class="headerlink" title="第一版"></a>第一版</h2><p><a href="https://github.com/imhuay/tensorflow_template/tree/master/v1" target="_blank" rel="noopener"><strong>第一个的版本</strong></a>参考的是另一个项目 <a href="https://github.com/MrGemy95/Tensorflow-Project-Template" target="_blank" rel="noopener">MrGemy95/Tensorflow-Project-Template</a>；这个项目很好的描述了一个 TF 框架的执行流程，并将模型、训练、统计分成了三个部分，但是大部分通用代码依然要每次重写一遍。</p>
+<p>我对这些做了一个集成，统一到了一个类中，添加了一些接口并固定了部分流程，简化了需要在 main() 函数中执行的代码。最后使用 bunch 模式来统一所有配置参数。该版本主要使用的是 TF 中的低级 API。</p>
+<h2 id="第二版"><a href="#第二版" class="headerlink" title="第二版"></a>第二版</h2><p><strong>第二个版本</strong>主要参考的是 TF 提供的高级 API <a href="https://www.tensorflow.org/versions/master/get_started/custom_estimators" target="_blank" rel="noopener"><code>tf.estimator.Estimator</code></a>。<br>这个 API 提供了非常简洁的接口，使用起来倒是非常优雅，但是搭建的过称却完全相反。最让人难以忍受的是，各种不透明的配置项。虽然 TF 也提供了一个统一的配置类 <code>tf.ConfigProto</code>，但它的使用却异常难受。简单来说，就是你 <code>.</code> 不出它的成员变量，你必须知道所有你需要配置的关键字参数的名字，才能使用这个类，而 TF 内部的各种 API 五花八门。这是阻止我使用这个封装器主要的原因。</p>
+<p>除此之外，它强迫你使用 <code>tf.feature_column</code> 这个特性，也让人难受；虽然 Feature Columns 的初衷不错——帮你规划好不同的特征——但我想完全使用 TF 做数据预处理的应该不多吧，一般都会使用 sk-learn 或更专业的 pandas 一步到位。</p>
+<p>项目中的 README 已经演示了一个示例来说明这个框架的用法。<code>examples</code> 文件夹中也提供了两个例子（未来还会更多），这里再简单说明一下最新版的使用方法：</p>
+<h2 id="快速搭建你的-TF-项目"><a href="#快速搭建你的-TF-项目" class="headerlink" title="快速搭建你的 TF 项目"></a>快速搭建你的 TF 项目</h2><h3 id="1-继承-BaseModel"><a href="#1-继承-BaseModel" class="headerlink" title="1. 继承 BaseModel"></a>1. 继承 BaseModel</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> tensorflow_template.base.base_model <span class="keyword">import</span> BasicModel</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IrisModel</span><span class="params">(BasicModel)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_init_model</span><span class="params">(self, features, labels, mode)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<p>没错，一般情况下，你只需要完成这一个函数就可以了</p>
+<h3 id="2-构建模型"><a href="#2-构建模型" class="headerlink" title="2. 构建模型"></a>2. 构建模型</h3><p>一般来说，一个完整的 model 需要包含以下几个部分：</p>
+<ul>
+<li>神经网络 layers</li>
+<li>网络的输出 （比如 logits, argmax(logits), softmax(logits)）</li>
+<li>损失函数 loss</li>
+<li>优化器 train_op<br>其他：</li>
+<li>metrics_op （比如 tf.metrics.accuracy）</li>
+</ul>
+<p>一个简单的示例，完整代码可以参考 [examples/iris]<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_init_graph</span><span class="params">(self, features, labels, mode)</span>:</span></span><br><span class="line">    <span class="comment"># 1. define the neural net</span></span><br><span class="line">    <span class="comment"># for units in self.config.n_units:</span></span><br><span class="line">    <span class="comment">#     net = tf.layers.dense(net, units=units, activation=tf.nn.relu)</span></span><br><span class="line">    net = tf.layers.dense(features, units=self.config.n_units[<span class="number">0</span>], activation=tf.nn.relu)</span><br><span class="line">    net = tf.layers.dense(net, units=self.config.n_units[<span class="number">1</span>], activation=tf.nn.relu)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># the output</span></span><br><span class="line">    self._logits = tf.layers.dense(net, self.config.n_class, activation=<span class="keyword">None</span>)</span><br><span class="line">    self._prediction = tf.argmax(self._logits, axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> mode == self.ModeKeys.PREDICT:</span><br><span class="line">        self._probabilities = tf.nn.softmax(self._logits)</span><br><span class="line">        <span class="comment"># return [self._prediction, self._probabilities]</span></span><br><span class="line">        <span class="comment"># It's better to use dict</span></span><br><span class="line">        <span class="keyword">return</span> &#123;<span class="string">'prediction'</span>: self._prediction,</span><br><span class="line">                <span class="string">'probabilities'</span>: self._probabilities&#125;</span><br><span class="line">                </span><br><span class="line">    <span class="comment"># 2. define the loss</span></span><br><span class="line">    self._loss = tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=self._logits)</span><br><span class="line">    <span class="comment"># self.add_log_tensor('loss', self._loss)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 3. define the metrics if needed</span></span><br><span class="line">    _, self._accuracy = tf.metrics.accuracy(labels=labels,</span><br><span class="line">                                            predictions=self._prediction, name=<span class="string">'acc_op'</span>)</span><br><span class="line">    <span class="comment"># self.add_log_tensor('acc', self._accuracy)</span></span><br><span class="line"></span><br><span class="line">    self.add_log_tensors(&#123;<span class="string">'loss'</span>: self._loss,</span><br><span class="line">                          <span class="string">'acc'</span>: self._accuracy&#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> mode == self.ModeKeys.EVALUATE:</span><br><span class="line">        <span class="keyword">return</span> [self._loss, self._accuracy]</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 4. define the train_op when the mode is TRAIN</span></span><br><span class="line">    <span class="keyword">if</span> mode == self.ModeKeys.TRAIN:</span><br><span class="line">        self._optimizer = tf.train.AdagradOptimizer(learning_rate=<span class="number">0.1</span>)</span><br><span class="line">        self._train_op = self._optimizer.minimize(self._loss, global_step=tf.train.get_global_step())</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> [self._train_op, self._loss, self._accuracy]</span><br></pre></td></tr></table></figure></p>
+<p>因为 train/eval/pred 使用的是同一张图，所有需要在不同的模式下返回不同的 op。其实我不太喜欢这个需要按条件返回的做法，但是经过不少尝试，还是使用了 <code>tf.estimator.Estimator</code> 原来的做法，不过去掉了中间件 <code>tf.estimator.EstimatorSpec</code>。</p>
+<h3 id="3-参数配置"><a href="#3-参数配置" class="headerlink" title="3. 参数配置"></a>3. 参数配置</h3><p>默认情况下，我对几乎所有配置参数设置了默认值，第一次构建时可以直接运行；不过也因为这个原因，我对 n_epoch 和 n_batch 设的默认值都比较小，可以熟悉流程后进行修改。</p>
+<p>因为参数的数量不小，建议写在一个函数了，被堆在 main() 里面。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> tensorflow_template.base.base_model <span class="keyword">import</span> BaseConfig</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_config</span><span class="params">()</span>:</span></span><br><span class="line">    config = BaseConfig(<span class="string">'ex'</span>)</span><br><span class="line">    </span><br><span class="line">    config.n_epoch_train = <span class="number">100</span>  <span class="comment"># modify the predefine args</span></span><br><span class="line">    config.aaa = <span class="number">0.1</span>  <span class="comment"># add new args</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> config</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-运行"><a href="#4-运行" class="headerlink" title="4. 运行"></a>4. 运行</h3><p>运行的过程就比较优雅了，只需要这样：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    config = get_config()</span><br><span class="line">    ds_train, ds_eval, ds_pred = get_datasets()</span><br><span class="line">    </span><br><span class="line">    model = IrisModel(config)</span><br><span class="line">    </span><br><span class="line">    model.train(ds_train)</span><br><span class="line">    model.evaluate(ds_eval)</span><br><span class="line">    ret = model.predict(ds_pred)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> ret:</span><br><span class="line">        print(i)</span><br></pre></td></tr></table></figure></p>
+<p>checkpoint、summary、evaluate 等等都会自动在当前文件夹下生成</p>
+<h3 id="5-最后"><a href="#5-最后" class="headerlink" title="5. 最后"></a>5. 最后</h3><p>欢迎建议和新的 feature，还有新的 examples</p>
 
       
     </div>
@@ -387,6 +406,8 @@
         <div class="post-tags">
           
             <a href="/tags/开源项目/" rel="tag"># 开源项目</a>
+          
+            <a href="/tags/tensorflow/" rel="tag"># tensorflow</a>
           
         </div>
       
@@ -460,8 +481,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -499,7 +529,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
+                      
+                    
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -549,6 +581,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一版"><span class="nav-number">1.</span> <span class="nav-text">第一版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二版"><span class="nav-number">2.</span> <span class="nav-text">第二版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速搭建你的-TF-项目"><span class="nav-number">3.</span> <span class="nav-text">快速搭建你的 TF 项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-继承-BaseModel"><span class="nav-number">3.1.</span> <span class="nav-text">1. 继承 BaseModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-构建模型"><span class="nav-number">3.2.</span> <span class="nav-text">2. 构建模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-参数配置"><span class="nav-number">3.3.</span> <span class="nav-text">3. 参数配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-运行"><span class="nav-number">3.4.</span> <span class="nav-text">4. 运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-最后"><span class="nav-number">3.5.</span> <span class="nav-text">5. 最后</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
