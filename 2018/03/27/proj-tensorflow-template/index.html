@@ -102,14 +102,14 @@
   <meta name="description" content="一个帮助你快速搭建 Tensorflow 深度学习框架的模板；本质上是一个简化的`tf.estimator.Estimator`">
 <meta name="keywords" content="开源项目,tensorflow">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用 tensorflow_template 快速搭建你的 DL 项目">
+<meta property="og:title" content="使用 tensorflow_template 快速搭建深度学习项目">
 <meta property="og:url" content="http://yoursite.com/2018/03/27/proj-tensorflow-template/index.html">
 <meta property="og:site_name" content="huay&#39;s Blog">
 <meta property="og:description" content="一个帮助你快速搭建 Tensorflow 深度学习框架的模板；本质上是一个简化的`tf.estimator.Estimator`">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-02T03:22:51.421Z">
+<meta property="og:updated_time" content="2018-04-02T03:25:36.787Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用 tensorflow_template 快速搭建你的 DL 项目">
+<meta name="twitter:title" content="使用 tensorflow_template 快速搭建深度学习项目">
 <meta name="twitter:description" content="一个帮助你快速搭建 Tensorflow 深度学习框架的模板；本质上是一个简化的`tf.estimator.Estimator`">
 
 
@@ -127,7 +127,7 @@
   };
 </script>
 
-  <title>使用 tensorflow_template 快速搭建你的 DL 项目 | huay's Blog</title>
+  <title>使用 tensorflow_template 快速搭建深度学习项目 | huay's Blog</title>
   
 
 
@@ -311,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">使用 tensorflow_template 快速搭建你的 DL 项目</h1>
+          <h1 class="post-title" itemprop="name headline">使用 tensorflow_template 快速搭建深度学习项目</h1>
         
 
         <div class="post-meta">
@@ -365,6 +365,7 @@
         <p>先贴上这个项目的地址: <a href="https://github.com/imhuay/tensorflow_template" target="_blank" rel="noopener">GitHub - tensorflow_template</a>，目前发布了两个版本</p>
 <h2 id="第一版"><a href="#第一版" class="headerlink" title="第一版"></a>第一版</h2><p><a href="https://github.com/imhuay/tensorflow_template/tree/master/v1" target="_blank" rel="noopener"><strong>第一个的版本</strong></a>参考的是另一个项目 <a href="https://github.com/MrGemy95/Tensorflow-Project-Template" target="_blank" rel="noopener">MrGemy95/Tensorflow-Project-Template</a>；这个项目很好的描述了一个 TF 框架的执行流程，并将模型、训练、统计分成了三个部分，但是大部分通用代码依然要每次重写一遍。</p>
 <p>我对这些做了一个集成，统一到了一个类中，添加了一些接口并固定了部分流程，简化了需要在 main() 函数中执行的代码。最后使用 bunch 模式来统一所有配置参数。该版本主要使用的是 TF 中的低级 API。</p>
+<p>如果你还不是很熟悉 Tensorflow，我建议你使用这个版本，里面使用的是 TF 低级 API，可以帮助你快速了解 TF 的使用流程。</p>
 <h2 id="第二版"><a href="#第二版" class="headerlink" title="第二版"></a>第二版</h2><p><strong>第二个版本</strong>主要参考的是 TF 提供的高级 API <a href="https://www.tensorflow.org/versions/master/get_started/custom_estimators" target="_blank" rel="noopener"><code>tf.estimator.Estimator</code></a>。<br>这个 API 提供了非常简洁的接口，使用起来倒是非常优雅，但是搭建的过称却完全相反。最让人难以忍受的是，各种不透明的配置项。虽然 TF 也提供了一个统一的配置类 <code>tf.ConfigProto</code>，但它的使用却异常难受。简单来说，就是你 <code>.</code> 不出它的成员变量，你必须知道所有你需要配置的关键字参数的名字，才能使用这个类，而 TF 内部的各种 API 五花八门。这是阻止我使用这个封装器主要的原因。</p>
 <p>除此之外，它强迫你使用 <code>tf.feature_column</code> 这个特性，也让人难受；虽然 Feature Columns 的初衷不错——帮你规划好不同的特征——但我想完全使用 TF 做数据预处理的应该不多吧，一般都会使用 sk-learn 或更专业的 pandas 一步到位。</p>
 <p>项目中的 README 已经演示了一个示例来说明这个框架的用法。<code>examples</code> 文件夹中也提供了两个例子（未来还会更多），这里再简单说明一下最新版的使用方法：</p>
