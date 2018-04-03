@@ -107,7 +107,7 @@
 <meta property="og:site_name" content="huay&#39;s Blog">
 <meta property="og:description" content="记录下可能会在面试或答辩时被问到的 NLP 相关问题。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-03T05:18:50.323Z">
+<meta property="og:updated_time" content="2018-04-03T05:23:18.511Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NLP 相关问题记录">
 <meta name="twitter:description" content="记录下可能会在面试或答辩时被问到的 NLP 相关问题。">
@@ -363,8 +363,8 @@
 
       
         <h2 id="你提到-CNN-在-NLP-分类任务上比-RNN-效果更好，为什么？有什么依据吗？"><a href="#你提到-CNN-在-NLP-分类任务上比-RNN-效果更好，为什么？有什么依据吗？" class="headerlink" title="你提到 CNN 在 NLP 分类任务上比 RNN 效果更好，为什么？有什么依据吗？"></a>你提到 CNN 在 NLP 分类任务上比 RNN 效果更好，为什么？有什么依据吗？</h2><p>并不是说 CNN 在所有 NLP 分类任务上已经比 RNN 更好了，大部分深度学习模型都是跟任务紧密相关的。</p>
-<p>事实上，RNN 在多数 NLP 任务上有更好的健壮性和效果，除了那些本质上是<strong>关键短语识别</strong>的任务或者<strong>关键短语</strong>在其中起到更大权重的任务，比如一些句子分类任务，问答匹配，情绪检测等。</p>
-<p>在大量的尝试后，很多研究认为目前的深度学习在理解完整的语义上还存在很大的困难，但是对单词或者短语的语义理解已经能达到一定的水准。而对于大多数分类任务来说，并不要求能够理解完整的语义，只需要能分类其中的关键词即可。在这一点上，CNN 可能比 RNN 更合适。很多研究把 CNN 在 NLP 上的应用看作是一种高级的 n-gram 模型。这在一定程度上解释了为什么 CNN 比 RNN 更容易找到关键短语，从而获得更好的分类效果。</p>
+<p>事实上，RNN 在多数 NLP 任务上有更好的健壮性和效果，除了那些本质上是<strong>关键短语识别</strong>的任务或者<strong>关键短语</strong>在其中起到更大权重的任务，比如问答匹配，情绪检测等。而如果你的目标是理解自然语言，比如机器翻译，阅读理解，那么 RNN 的效果可能会更好。</p>
+<p>在大量的尝试后，很多研究认为目前的深度学习在理解完整的语义上还存在很大的困难，但是对单词或者短语的语义理解已经能达到一定的水准。而对于很多分类任务来说，并不要求能够理解完整的语义，只需要能分类其中的关键词即可。在这一点上，CNN 可能比 RNN 更合适。很多研究把 CNN 在 NLP 上的应用看作是一种高级的 n-gram 模型。这在一定程度上解释了为什么 CNN 比 RNN 更容易找到关键短语，从而获得更好的分类效果。</p>
 <blockquote>
 <p>Quora/<a href="https://www.quora.com/Why-are-CNNs-better-at-classification-than-RNNs/answer/Matthew-Li-53" target="_blank" rel="noopener">Why are CNNs better at classification than RNNs?</a></p>
 <blockquote>
