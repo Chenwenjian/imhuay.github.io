@@ -107,7 +107,7 @@
 <meta property="og:site_name" content="huay&#39;s Blog">
 <meta property="og:description" content="记录下可能会在面试或答辩时被问到的 Deep Learning 相关问题。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-04T12:52:30.302Z">
+<meta property="og:updated_time" content="2018-04-04T14:58:49.370Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Deep Learning 相关问题记录">
 <meta name="twitter:description" content="记录下可能会在面试或答辩时被问到的 Deep Learning 相关问题。">
@@ -362,10 +362,10 @@
       
 
       
-        <h2 id="L1-L2-范数的作用区别"><a href="#L1-L2-范数的作用区别" class="headerlink" title="L1, L2 范数的作用区别"></a>L1, L2 范数的作用区别</h2><p><strong>区别</strong>：L1, L2 范数的数学上的关系就像是直角三角形中<strong>两直角边之和</strong>与<strong>斜边</strong>的关系，属于不同的距离描述方式。L1 范数距离也称为<strong>曼哈顿距离</strong>，L2 范数距离也称为<strong>欧式距离</strong></p>
+        <h2 id="L1-L2-范数的区别、作用"><a href="#L1-L2-范数的区别、作用" class="headerlink" title="L1, L2 范数的区别、作用"></a>L1, L2 范数的区别、作用</h2><p><strong>区别</strong>：L1, L2 范数的数学上的关系就像是直角三角形中<strong>两直角边之和</strong>与<strong>斜边</strong>的关系，属于不同的距离描述方式。L1 范数距离也称为<strong>曼哈顿距离</strong>，L2 范数距离也称为<strong>欧式距离</strong></p>
 <p><strong>作用</strong>: </p>
 <ul>
-<li>L2 范数正则化也被称为<strong>权重衰减</strong>；简单来说，如果不做 L2 约束，那么多数学习模型会倾向于更大的权值，导致过拟合。加入 L2 范数的目的就是限制这个趋势。</li>
+<li>L2 范数正则化会产生更<strong>平滑</strong>的权值；L2 范数正则化也被称为<strong>权重衰减</strong>；简单来说，如果不做 L2 约束，那么多数学习模型会倾向于更大的权值，导致过拟合。加入 L2 范数的目的就是限制这个趋势。</li>
 <li>L1 范数正则化会使权重变得更加<strong>稀疏</strong>。具体来说，就是如果某个权重无益于减小目标函数，L1 正则化会把它推向 0。因为这个特性，L1 范数更多的被用于<strong>特征选择</strong>。<blockquote>
 <p>为什么 L2 不会导致稀疏？因为 L2 求导总不为 0</p>
 </blockquote>
@@ -374,7 +374,7 @@
 <blockquote>
 <p>《深度学习》 笔记</p>
 </blockquote>
-
+<h2 id="怎么处理过拟合？"><a href="#怎么处理过拟合？" class="headerlink" title="怎么处理过拟合？"></a>怎么处理过拟合？</h2>
       
     </div>
 
@@ -596,7 +596,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#L1-L2-范数的作用区别"><span class="nav-number">1.</span> <span class="nav-text">L1, L2 范数的作用区别</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#L1-L2-范数的区别、作用"><span class="nav-number">1.</span> <span class="nav-text">L1, L2 范数的区别、作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么处理过拟合？"><span class="nav-number">2.</span> <span class="nav-text">怎么处理过拟合？</span></a></li></ol></div>
             
 
           </div>

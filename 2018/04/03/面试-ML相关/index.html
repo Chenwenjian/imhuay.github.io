@@ -107,7 +107,7 @@
 <meta property="og:site_name" content="huay&#39;s Blog">
 <meta property="og:description" content="记录下可能会在面试或答辩时被问到的 Machine Learning 相关问题。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-04T12:52:22.257Z">
+<meta property="og:updated_time" content="2018-04-04T15:12:34.261Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Machine Learning 相关问题记录">
 <meta name="twitter:description" content="记录下可能会在面试或答辩时被问到的 Machine Learning 相关问题。">
@@ -372,7 +372,23 @@
 <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ul>
 <li>AUC (Area under curve)</li>
 </ul>
-<h2 id="集成学习"><a href="#集成学习" class="headerlink" title="集成学习"></a>集成学习</h2><p>Tags: 集成学习 (Ensemble Learning), Boosting 方法, <a href="https://github.com/dmlc/xgboost" target="_blank" rel="noopener">XGBoost 系统</a>, CART 回归树</p>
+<h2 id="L1-L2-范数的区别、作用"><a href="#L1-L2-范数的区别、作用" class="headerlink" title="L1, L2 范数的区别、作用"></a>L1, L2 范数的区别、作用</h2><h3 id="一些常识"><a href="#一些常识" class="headerlink" title="一些常识"></a>一些常识</h3><p>使用 L1 正则化的模型叫做 Lasso 回归；使用 L2 正则化的模型叫做 Ridge 回归（岭回归）</p>
+<p><strong>区别</strong>：L1, L2 范数的数学上的关系就像是直角三角形中<strong>两直角边之和</strong>与<strong>斜边</strong>的关系，属于不同的距离描述方式。L1 范数距离也称为<strong>曼哈顿距离</strong>，L2 范数距离也称为<strong>欧式距离</strong></p>
+<p><strong>作用</strong>: </p>
+<ul>
+<li>L2 范数正则化会产生更<strong>平滑</strong>的权值；L2 范数正则化也被称为<strong>权重衰减</strong>；简单来说，如果不做 L2 约束，那么多数学习模型会倾向于更大的权值，导致过拟合。加入 L2 范数的目的就是限制这个趋势。</li>
+<li>L1 范数正则化会使权重变得更加<strong>稀疏</strong>。具体来说，就是如果某个权重无益于减小目标函数，L1 正则化会把它推向 0。因为这个特性，L1 范数更多的被用于<strong>特征选择</strong>。<blockquote>
+<p>为什么 L2 不会导致稀疏？</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>《深度学习》 笔记</p>
+</blockquote>
+<blockquote>
+<p>CSDN/<a href="https://blog.csdn.net/jinping_shi/article/details/52433975" target="_blank" rel="noopener">机器学习中正则化项L1和L2的直观理解</a></p>
+</blockquote>
+<h2 id="怎么处理过拟合？"><a href="#怎么处理过拟合？" class="headerlink" title="怎么处理过拟合？"></a>怎么处理过拟合？</h2><h2 id="集成学习"><a href="#集成学习" class="headerlink" title="集成学习"></a>集成学习</h2><p>Tags: 集成学习 (Ensemble Learning), Boosting 方法, <a href="https://github.com/dmlc/xgboost" target="_blank" rel="noopener">XGBoost 系统</a>, CART 回归树</p>
 <p><strong>集成学习</strong>: 组合多个机器学习模型来获得更好的泛化性能；几类算法族: <strong>Boosting</strong>, Bagging, Stacking</p>
 <h3 id="Boost-算法"><a href="#Boost-算法" class="headerlink" title="Boost 算法"></a>Boost 算法</h3><p>Boost 算法的基本思想是：先训练一个<strong>基学习器</strong>，然后根据基学习器的表现调整<strong>训练样本的分布</strong>，使训练错误的样本得到更大的权重。然后基于调整后的样本训练下一个基学习器。最后对所有基学习器进行<strong>加权</strong>组合。其中最典型的算法是 <strong>AdaBoost</strong>，它使用的策略是根据学习器的<strong>误差率</strong>来更新权值。</p>
 <h3 id="XGBoost-框架"><a href="#XGBoost-框架" class="headerlink" title="XGBoost 框架"></a>XGBoost 框架</h3><p>XGBoost 是一个 Gradient Boost 高效系统实现，其中包含了 GBDT 算法，与一些额外的优化策略；比如：</p>
@@ -638,7 +654,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#公式推导"><span class="nav-number">1.</span> <span class="nav-text">公式推导</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">2.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集成学习"><span class="nav-number">3.</span> <span class="nav-text">集成学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Boost-算法"><span class="nav-number">3.1.</span> <span class="nav-text">Boost 算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XGBoost-框架"><span class="nav-number">3.2.</span> <span class="nav-text">XGBoost 框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GBDT-Gradient-Boosting-Decision-Tree-梯度下降决策树"><span class="nav-number">3.3.</span> <span class="nav-text">GBDT (Gradient Boosting Decision Tree, 梯度下降决策树)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隐马尔科夫模型"><span class="nav-number">4.</span> <span class="nav-text">隐马尔科夫模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#维特比-Viterbi-算法"><span class="nav-number">4.1.</span> <span class="nav-text">维特比(Viterbi)算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SVM-支持向量机"><span class="nav-number">5.</span> <span class="nav-text">SVM 支持向量机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目标函数"><span class="nav-number">5.1.</span> <span class="nav-text">目标函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对偶算法"><span class="nav-number">5.2.</span> <span class="nav-text">对偶算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#核函数"><span class="nav-number">5.3.</span> <span class="nav-text">核函数</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#公式推导"><span class="nav-number">1.</span> <span class="nav-text">公式推导</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">2.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#L1-L2-范数的区别、作用"><span class="nav-number">3.</span> <span class="nav-text">L1, L2 范数的区别、作用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一些常识"><span class="nav-number">3.1.</span> <span class="nav-text">一些常识</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么处理过拟合？"><span class="nav-number">4.</span> <span class="nav-text">怎么处理过拟合？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集成学习"><span class="nav-number">5.</span> <span class="nav-text">集成学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Boost-算法"><span class="nav-number">5.1.</span> <span class="nav-text">Boost 算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XGBoost-框架"><span class="nav-number">5.2.</span> <span class="nav-text">XGBoost 框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GBDT-Gradient-Boosting-Decision-Tree-梯度下降决策树"><span class="nav-number">5.3.</span> <span class="nav-text">GBDT (Gradient Boosting Decision Tree, 梯度下降决策树)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隐马尔科夫模型"><span class="nav-number">6.</span> <span class="nav-text">隐马尔科夫模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#维特比-Viterbi-算法"><span class="nav-number">6.1.</span> <span class="nav-text">维特比(Viterbi)算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SVM-支持向量机"><span class="nav-number">7.</span> <span class="nav-text">SVM 支持向量机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目标函数"><span class="nav-number">7.1.</span> <span class="nav-text">目标函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对偶算法"><span class="nav-number">7.2.</span> <span class="nav-text">对偶算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#核函数"><span class="nav-number">7.3.</span> <span class="nav-text">核函数</span></a></li></ol></li></ol></div>
             
 
           </div>
