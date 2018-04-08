@@ -99,25 +99,25 @@
 
 
 
-  <meta name="description" content="记录下可能会在面试或答辩时被问到的 NLP 相关问题。">
-<meta name="keywords" content="面试,自然语言处理">
+  <meta name="description" content="记录下可能会在面试或答辩时被问到的 Machine Learning 相关问题。">
+<meta name="keywords" content="机器学习,面试">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NLP 相关问题记录">
-<meta property="og:url" content="http://yoursite.com/2018/04/03/面试-NLP相关/index.html">
+<meta property="og:title" content="Machine Learning 相关问题记录">
+<meta property="og:url" content="http://yoursite.com/2018/04/03/面试-ML相关概念/index.html">
 <meta property="og:site_name" content="huay&#39;s Blog">
-<meta property="og:description" content="记录下可能会在面试或答辩时被问到的 NLP 相关问题。">
+<meta property="og:description" content="记录下可能会在面试或答辩时被问到的 Machine Learning 相关问题。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-04T12:52:10.277Z">
+<meta property="og:updated_time" content="2018-04-05T11:10:44.194Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NLP 相关问题记录">
-<meta name="twitter:description" content="记录下可能会在面试或答辩时被问到的 NLP 相关问题。">
+<meta name="twitter:title" content="Machine Learning 相关问题记录">
+<meta name="twitter:description" content="记录下可能会在面试或答辩时被问到的 Machine Learning 相关问题。">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/04/03/面试-NLP相关/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/04/03/面试-ML相关概念/"/>
 
 
 
@@ -127,7 +127,7 @@
   };
 </script>
 
-  <title>NLP 相关问题记录 | huay's Blog</title>
+  <title>Machine Learning 相关问题记录 | huay's Blog</title>
   
 
 
@@ -294,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/03/面试-NLP相关/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/03/面试-ML相关概念/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="huay">
@@ -311,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">NLP 相关问题记录</h1>
+          <h1 class="post-title" itemprop="name headline">Machine Learning 相关问题记录</h1>
         
 
         <div class="post-meta">
@@ -323,7 +323,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-03T11:24:11+08:00">2018-04-03</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-03T15:02:03+08:00">2018-04-03</time>
             
 
             
@@ -346,7 +346,7 @@
           
 
           
-              <div class="post-description">记录下可能会在面试或答辩时被问到的 NLP 相关问题。</div>
+              <div class="post-description">记录下可能会在面试或答辩时被问到的 Machine Learning 相关问题。</div>
           
 
         </div>
@@ -362,16 +362,73 @@
       
 
       
-        <h2 id="你提到-CNN-在-NLP-分类任务上比-RNN-效果更好，为什么？有什么依据吗？"><a href="#你提到-CNN-在-NLP-分类任务上比-RNN-效果更好，为什么？有什么依据吗？" class="headerlink" title="你提到 CNN 在 NLP 分类任务上比 RNN 效果更好，为什么？有什么依据吗？"></a>你提到 CNN 在 NLP 分类任务上比 RNN 效果更好，为什么？有什么依据吗？</h2><p>并不是说 CNN 在所有 NLP 分类任务上已经比 RNN 更好了，大部分深度学习模型都是跟任务紧密相关的。</p>
-<p>事实上，RNN 在多数 NLP 任务上有更好的健壮性和效果，除了那些本质上是<strong>关键短语识别</strong>的任务或者<strong>关键短语</strong>在其中起到更大权重的任务，比如问答匹配，情绪检测等。而如果你的目标是理解自然语言，比如机器翻译，阅读理解，那么 RNN 的效果可能会更好。</p>
-<p>在大量的尝试后，很多研究认为目前的深度学习在理解完整的语义上还存在很大的困难，但是对单词或者短语的语义理解已经能达到一定的水准。而对于很多分类任务来说，并不要求能够理解完整的语义，只需要能分类其中的关键词即可。在这一点上，CNN 可能比 RNN 更合适。很多研究把 CNN 在 NLP 上的应用看作是一种高级的 n-gram 模型。这在一定程度上解释了为什么 CNN 比 RNN 更容易找到关键短语，从而获得更好的分类效果。</p>
+        <h2 id="公式推导"><a href="#公式推导" class="headerlink" title="公式推导"></a>公式推导</h2><ul>
+<li>LR (逻辑回归)</li>
+<li>BP (反向传播) <ul>
+<li>BPTT (Back Propagation Through Time, RNN)</li>
+</ul>
+</li>
+</ul>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ul>
+<li>AUC (Area under curve)</li>
+</ul>
+<h2 id="L1-L2-范数"><a href="#L1-L2-范数" class="headerlink" title="L1, L2 范数"></a>L1, L2 范数</h2><h3 id="一些常识"><a href="#一些常识" class="headerlink" title="一些常识"></a>一些常识</h3><p>使用 L1 正则化的模型叫做 Lasso 回归；使用 L2 正则化的模型叫做 Ridge 回归（岭回归）</p>
+<h3 id="L1-L2-的区别"><a href="#L1-L2-的区别" class="headerlink" title="L1, L2 的区别"></a>L1, L2 的区别</h3><p>L1, L2 在数学上的关系就像是直角三角形中<strong>两直角边之和</strong>与<strong>斜边</strong>的关系，属于不同的距离描述方式。<br>L1 范数距离也称为<strong>曼哈顿距离</strong>，L2 范数距离也称为<strong>欧式距离</strong></p>
+<h3 id="L1-L2-的作用"><a href="#L1-L2-的作用" class="headerlink" title="L1, L2 的作用"></a>L1, L2 的作用</h3><ul>
+<li>L2 范数正则化也被称为<strong>权重衰减</strong>；<br>  简单来说，如果不做 L2 约束，那么多数学习模型会倾向于更大的权值，导致过拟合。<br>  加入 L2 范数可以限制这个趋势。</li>
+<li>L1 范数正则化会使权重变得更加<strong>稀疏</strong>。<br>  具体来说，就是如果某个权重无益于减小目标函数，L1 正则化会把它推向 0。<br>  因为这个特性，L1 范数更多的被用于<strong>特征选择</strong>。</li>
+</ul>
 <blockquote>
-<p>Quora/<a href="https://www.quora.com/Why-are-CNNs-better-at-classification-than-RNNs/answer/Matthew-Li-53" target="_blank" rel="noopener">Why are CNNs better at classification than RNNs?</a></p>
+<p>《深度学习》 笔记</p>
+</blockquote>
+<h3 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h3><blockquote>
+<p>CSDN/<a href="https://blog.csdn.net/jinping_shi/article/details/52433975" target="_blank" rel="noopener">机器学习中正则化项L1和L2的直观理解</a></p>
+</blockquote>
+<h2 id="偏差与方差"><a href="#偏差与方差" class="headerlink" title="偏差与方差"></a>偏差与方差</h2><h2 id="过拟合"><a href="#过拟合" class="headerlink" title="过拟合"></a>过拟合</h2><h2 id="集成学习"><a href="#集成学习" class="headerlink" title="集成学习"></a>集成学习</h2><p>Tags: 集成学习 (Ensemble Learning), Boosting 方法, <a href="https://github.com/dmlc/xgboost" target="_blank" rel="noopener">XGBoost 系统</a>, CART 回归树</p>
+<p><strong>集成学习</strong>: 组合多个机器学习模型来获得更好的泛化性能；几类算法族: <strong>Boosting</strong>, Bagging, Stacking</p>
+<h3 id="Boost-算法"><a href="#Boost-算法" class="headerlink" title="Boost 算法"></a>Boost 算法</h3><p>Boost 算法的基本思想是：先训练一个<strong>基学习器</strong>，然后根据基学习器的表现调整<strong>训练样本的分布</strong>，使训练错误的样本得到更大的权重。然后基于调整后的样本训练下一个基学习器。最后对所有基学习器进行<strong>加权</strong>组合。其中最典型的算法是 <strong>AdaBoost</strong>，它使用的策略是根据学习器的<strong>误差率</strong>来更新权值。</p>
+<h3 id="XGBoost-框架"><a href="#XGBoost-框架" class="headerlink" title="XGBoost 框架"></a>XGBoost 框架</h3><p>XGBoost 是一个 Gradient Boost 高效系统实现，其中包含了 GBDT 算法，与一些额外的优化策略；比如：</p>
+<ul>
+<li>XGBoost 使用（拟）牛顿法（二阶收敛）来代替梯度下降（一阶收敛）；<ul>
+<li>牛顿法收敛的更快</li>
+<li>更通俗地说的话，比如你想找一条最短的路径走到一个盆地的最底部，梯度下降法每次只从你当前所处位置选一个坡度最大的方向走一步，牛顿法在选择方向时，不仅会考虑坡度是否够大，还会考虑你走了一步之后，坡度是否会变得更大。<blockquote>
+<p>知乎/<a href="https://www.zhihu.com/question/19723347" target="_blank" rel="noopener">最优化问题中，牛顿法为什么比梯度下降法求解需要的迭代次数更少？</a></p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>在损失函数中加入了控制模型复杂度的<strong>正则项</strong>等。</li>
+</ul>
 <blockquote>
-<p><a href="https://arxiv.org/abs/1702.01923" target="_blank" rel="noopener">[1702.01923] Comparative Study of CNN and RNN for Natural Language Processing</a></p>
+<p>知乎/<a href="https://www.zhihu.com/question/41354392" target="_blank" rel="noopener">机器学习算法中 GBDT 和 XGBoost 的区别有哪些？</a></p>
+</blockquote>
+<h3 id="GBDT-Gradient-Boosting-Decision-Tree-梯度下降决策树"><a href="#GBDT-Gradient-Boosting-Decision-Tree-梯度下降决策树" class="headerlink" title="GBDT (Gradient Boosting Decision Tree, 梯度下降决策树)"></a>GBDT (Gradient Boosting Decision Tree, 梯度下降决策树)</h3><p>下面详细谈谈<strong>GBDT 算法</strong>的一些细节</p>
+<p>GBDT 也属于 Boost 族，一般使用的基学习器为 <strong>CART 回归树</strong>（分类回归树），与其他 Boost 算法的主要区别是迭代策略不同。</p>
+<p>GBDT 的基本思路是：用<strong>梯度下降</strong>来更新下一个基学习器的参数</p>
+<p><strong>特征重要性筛选</strong>：某个特征的重要性，就是它在所有树中出现的次数之和</p>
+<blockquote>
+<p>CSDN/<a href="https://blog.csdn.net/q383700092/article/details/53698760" target="_blank" rel="noopener">Xgboost筛选特征重要性</a></p>
+</blockquote>
+<blockquote>
+<p>也有使用牛顿法的，但这不是算法的核心</p>
+<blockquote>
+<p>博客园/<a href="https://www.cnblogs.com/shixiangwan/p/7532830.html" target="_blank" rel="noopener">常见的几种最优化方法（梯度下降、牛顿法、…）</a></p>
 </blockquote>
 </blockquote>
-
+<h2 id="隐马尔科夫模型"><a href="#隐马尔科夫模型" class="headerlink" title="隐马尔科夫模型"></a>隐马尔科夫模型</h2><h3 id="维特比-Viterbi-算法"><a href="#维特比-Viterbi-算法" class="headerlink" title="维特比(Viterbi)算法"></a>维特比(Viterbi)算法</h3><p>用<strong>动态规划(DP)</strong>的方法来寻找隐马尔科夫模型(HMM)中<strong>最大概率</strong>的隐状态序列，也就是 HMM 三个问题中的预测问题（已知观测序列和 HMM 模型）</p>
+<p>本质上，可以看做是一个<strong>最短路径</strong>（最大概率）问题；</p>
+<ul>
+<li>开始时，从<strong>起点 S</strong> 出发到<strong>状态 1</strong> 下的所有节点的最短距离就是 S 到个节点的距离</li>
+<li>到<strong>状态 2</strong>时，需要计算从 S 到<strong>状态 2</strong>的最短距离，这时 S 到状态 1 的最短距离是已知的；此时只需要利用这些最短距离就可以方便的求出 S 到状态 2 的最短距离。具体来说，就是对状态 2 中的每个节点，算出状态 1 中每个节点到它的距离，保存其中最小的，这就是 S 到该节点的最短距离。</li>
+<li>到下一个状态时，重复以上过程。</li>
+<li>到结束时，每个状态的每个节点都保存着 S 到该节点的最短距离（最大概率）。 </li>
+</ul>
+<blockquote>
+<p>博客园/<a href="https://www.cnblogs.com/Denise-hzf/p/6612212.html" target="_blank" rel="noopener">HMM 模型和 Viterbi 算法</a></p>
+</blockquote>
+<h2 id="SVM-支持向量机"><a href="#SVM-支持向量机" class="headerlink" title="SVM 支持向量机"></a>SVM 支持向量机</h2><h3 id="目标函数"><a href="#目标函数" class="headerlink" title="目标函数"></a>目标函数</h3><p>间隔最大化：硬间隔（线性可分）/软间隔（近似线性可分）</p>
+<p>加约束（constraint）：函数间隔 -&gt; 几何间隔</p>
+<h3 id="对偶算法"><a href="#对偶算法" class="headerlink" title="对偶算法"></a>对偶算法</h3><h3 id="核函数"><a href="#核函数" class="headerlink" title="核函数"></a>核函数</h3>
       
     </div>
 
@@ -391,9 +448,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/面试/" rel="tag"># 面试</a>
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
           
-            <a href="/tags/自然语言处理/" rel="tag"># 自然语言处理</a>
+            <a href="/tags/面试/" rel="tag"># 面试</a>
           
         </div>
       
@@ -406,8 +463,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/02/面试-阿里开放式问题-研究经历/" rel="next" title="阿里校招开放式问题记录">
-                <i class="fa fa-chevron-left"></i> 阿里校招开放式问题记录
+              <a href="/2018/04/03/面试-DL相关/" rel="next" title="Deep Learning 相关问题记录">
+                <i class="fa fa-chevron-left"></i> Deep Learning 相关问题记录
               </a>
             
           </div>
@@ -416,8 +473,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/04/03/面试-经典算法/" rel="prev" title="经典算法问题记录">
-                经典算法问题记录 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/04/03/面试-数据分析/" rel="prev" title="数据分析相关问题记录">
+                数据分析相关问题记录 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -598,7 +655,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#你提到-CNN-在-NLP-分类任务上比-RNN-效果更好，为什么？有什么依据吗？"><span class="nav-number">1.</span> <span class="nav-text">你提到 CNN 在 NLP 分类任务上比 RNN 效果更好，为什么？有什么依据吗？</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#公式推导"><span class="nav-number">1.</span> <span class="nav-text">公式推导</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">2.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#L1-L2-范数"><span class="nav-number">3.</span> <span class="nav-text">L1, L2 范数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一些常识"><span class="nav-number">3.1.</span> <span class="nav-text">一些常识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L1-L2-的区别"><span class="nav-number">3.2.</span> <span class="nav-text">L1, L2 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L1-L2-的作用"><span class="nav-number">3.3.</span> <span class="nav-text">L1, L2 的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么？"><span class="nav-number">3.4.</span> <span class="nav-text">为什么？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#偏差与方差"><span class="nav-number">4.</span> <span class="nav-text">偏差与方差</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过拟合"><span class="nav-number">5.</span> <span class="nav-text">过拟合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集成学习"><span class="nav-number">6.</span> <span class="nav-text">集成学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Boost-算法"><span class="nav-number">6.1.</span> <span class="nav-text">Boost 算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XGBoost-框架"><span class="nav-number">6.2.</span> <span class="nav-text">XGBoost 框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GBDT-Gradient-Boosting-Decision-Tree-梯度下降决策树"><span class="nav-number">6.3.</span> <span class="nav-text">GBDT (Gradient Boosting Decision Tree, 梯度下降决策树)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隐马尔科夫模型"><span class="nav-number">7.</span> <span class="nav-text">隐马尔科夫模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#维特比-Viterbi-算法"><span class="nav-number">7.1.</span> <span class="nav-text">维特比(Viterbi)算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SVM-支持向量机"><span class="nav-number">8.</span> <span class="nav-text">SVM 支持向量机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目标函数"><span class="nav-number">8.1.</span> <span class="nav-text">目标函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对偶算法"><span class="nav-number">8.2.</span> <span class="nav-text">对偶算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#核函数"><span class="nav-number">8.3.</span> <span class="nav-text">核函数</span></a></li></ol></li></ol></div>
             
 
           </div>
