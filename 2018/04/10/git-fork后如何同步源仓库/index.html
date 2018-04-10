@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="初学 git - fork 一个项目后该怎么做？ 如何保持仓库副本、本地副本 与 源仓库同步更新？ 测试项目：  源项目： https://github.com/imhuay-m/learn-git 副本仓库： https://github.com/imhuay/learn-git">
+<meta name="keywords" content="git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fork 一个项目后该怎么做">
+<meta property="og:url" content="http://yoursite.com/2018/04/10/git-fork后如何同步源仓库/index.html">
+<meta property="og:site_name" content="huay&#39;s Blog">
+<meta property="og:description" content="初学 git - fork 一个项目后该怎么做？ 如何保持仓库副本、本地副本 与 源仓库同步更新？ 测试项目：  源项目： https://github.com/imhuay-m/learn-git 副本仓库： https://github.com/imhuay/learn-git">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/git-fork后如何同步源仓库/VSCode处理冲突.png">
+<meta property="og:updated_time" content="2018-04-10T13:23:52.473Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="fork 一个项目后该怎么做">
+<meta name="twitter:description" content="初学 git - fork 一个项目后该怎么做？ 如何保持仓库副本、本地副本 与 源仓库同步更新？ 测试项目：  源项目： https://github.com/imhuay-m/learn-git 副本仓库： https://github.com/imhuay/learn-git">
+<meta name="twitter:image" content="http://yoursite.com/images/git-fork后如何同步源仓库/VSCode处理冲突.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/10/git-fork后如何同步源仓库/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>fork 一个项目后该怎么做 | huay's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">huay's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/10/git-fork后如何同步源仓库/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="huay">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="huay's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">fork 一个项目后该怎么做</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-10T20:06:34+08:00">2018-04-10</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>初学 git - fork 一个项目后该怎么做？</p>
+<p>如何保持仓库副本、本地副本 与 源仓库同步更新？</p>
+<p>测试项目：</p>
+<ul>
+<li>源项目： <a href="https://github.com/imhuay-m/learn-git" target="_blank" rel="noopener">https://github.com/imhuay-m/learn-git</a></li>
+<li>副本仓库： <a href="https://github.com/imhuay/learn-git" target="_blank" rel="noopener">https://github.com/imhuay/learn-git</a></li>
+</ul>
+<a id="more"></a>
+<hr>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><ol>
+<li>fork 源仓库 -&gt; 在自己的 GitHub 上生成一个<strong>副本仓库</strong></li>
+<li>clone <strong>副本仓库</strong>到本地</li>
+</ol>
+<h2 id="如何保持仓库副本、本地副本-与-源仓库同步更新？"><a href="#如何保持仓库副本、本地副本-与-源仓库同步更新？" class="headerlink" title="如何保持仓库副本、本地副本 与 源仓库同步更新？"></a>如何保持仓库副本、本地副本 与 源仓库同步更新？</h2><p>首先看下远程仓库的信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">λ git remote -v</span><br></pre></td></tr></table></figure></p>
+<p>如果使用 GitHub 客户端 clone 副本仓库，那么会自动添加上流(upstream)，即源仓库地址<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">λ git remote -v</span><br><span class="line">origin  https://github.com/imhuay/learn-git.git (fetch)</span><br><span class="line">origin  https://github.com/imhuay/learn-git.git (push)</span><br><span class="line">upstream        https://github.com/imhuay-m/learn-git.git (fetch)</span><br><span class="line">upstream        https://github.com/imhuay-m/learn-git.git (push)</span><br></pre></td></tr></table></figure></p>
+<p>如果是使用 git clone 的，则不会<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">λ git remote -v</span><br><span class="line">origin  https://github.com/imhuay/learn-git.git (fetch)</span><br><span class="line">origin  https://github.com/imhuay/learn-git.git (push)</span><br></pre></td></tr></table></figure></p>
+<p>假设使用的是 git clone，那么第一步就是要手动添加 upstream<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">λ git remote add upstream https://github.com/imhuay-m/learn-git.git</span><br></pre></td></tr></table></figure></p>
+<p>这时再查看远程仓库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">λ git remote -v</span><br><span class="line">origin  https://github.com/imhuay/learn-git.git (fetch)</span><br><span class="line">origin  https://github.com/imhuay/learn-git.git (push)</span><br><span class="line">upstream        https://github.com/imhuay-m/learn-git.git (fetch)</span><br><span class="line">upstream        https://github.com/imhuay-m/learn-git.git (push)</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>删除 upstream：<code>git remote rm upstream</code></p>
+</blockquote>
+<p>此时，就可以合并<strong>源仓库</strong>了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">λ git fetch upstream</span><br><span class="line">λ git merge upstream/master</span><br></pre></td></tr></table></figure></p>
+<p>此时，知识更新了本地仓库，而远程的副本仓库还没有同步，还要 push 一下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">λ git push</span><br></pre></td></tr></table></figure></p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="副本仓库没有更新，源仓库更新了"><a href="#副本仓库没有更新，源仓库更新了" class="headerlink" title="副本仓库没有更新，源仓库更新了"></a>副本仓库没有更新，源仓库更新了</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">λ git fetch upstream</span><br><span class="line">remote: Counting objects: 3, done.</span><br><span class="line">remote: Compressing objects: 100% (2/2), done.</span><br><span class="line">remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0</span><br><span class="line">Unpacking objects: 100% (3/3), done.</span><br><span class="line">From https://github.com/imhuay-m/learn-git</span><br><span class="line"> * [new branch]      master     -&gt; upstream/master</span><br><span class="line"></span><br><span class="line">λ git merge upstream/master</span><br><span class="line">Updating 416cd39..5883321</span><br><span class="line">Fast-forward</span><br><span class="line"> README.md | 2 ++</span><br><span class="line"> 1 file changed, 2 insertions(+)</span><br><span class="line"></span><br><span class="line">λ git push</span><br><span class="line">Counting objects: 3, done.</span><br><span class="line">Delta compression using up to 4 threads.</span><br><span class="line">Compressing objects: 100% (2/2), done.</span><br><span class="line">Writing objects: 100% (3/3), 695 bytes | 695.00 KiB/s, done.</span><br><span class="line">Total 3 (delta 0), reused 0 (delta 0)</span><br><span class="line">To https://github.com/imhuay/learn-git.git</span><br><span class="line">   416cd39..5883321  master -&gt; master</span><br></pre></td></tr></table></figure>
+<p>同步成功</p>
+<h3 id="本地仓库添加了新的文件，源仓库没有更新"><a href="#本地仓库添加了新的文件，源仓库没有更新" class="headerlink" title="本地仓库添加了新的文件，源仓库没有更新"></a>本地仓库添加了新的文件，源仓库没有更新</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">λ git add &quot;new.txt&quot;</span><br><span class="line"></span><br><span class="line">λ git commit -m &quot;add new&quot;</span><br><span class="line">[master e704edf] add new</span><br><span class="line"> 1 file changed, 1 insertion(+)</span><br><span class="line"> create mode 100644 new.txt</span><br><span class="line"></span><br><span class="line">λ git fetch upstream</span><br><span class="line"></span><br><span class="line">λ git merge upstream/master</span><br><span class="line">Already up to date.</span><br><span class="line"></span><br><span class="line">λ git push</span><br><span class="line">Counting objects: 3, done.</span><br><span class="line">Delta compression using up to 4 threads.</span><br><span class="line">Compressing objects: 100% (2/2), done.</span><br><span class="line">Writing objects: 100% (3/3), 313 bytes | 313.00 KiB/s, done.</span><br><span class="line">Total 3 (delta 0), reused 0 (delta 0)</span><br><span class="line">To https://github.com/imhuay/learn-git.git</span><br><span class="line">   5883321..e704edf  master -&gt; master</span><br></pre></td></tr></table></figure>
+<p>更新成功</p>
+<blockquote>
+<p>副本仓库的修改不会影响源仓库</p>
+</blockquote>
+<h3 id="本地仓库和源仓库修改了不同的文件"><a href="#本地仓库和源仓库修改了不同的文件" class="headerlink" title="本地仓库和源仓库修改了不同的文件"></a>本地仓库和源仓库修改了不同的文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">λ git add --all</span><br><span class="line"></span><br><span class="line">λ git commit -m &quot;some modify&quot;</span><br><span class="line">[master e937603] some modify</span><br><span class="line"> 1 file changed, 3 insertions(+), 1 deletion(-)</span><br><span class="line"></span><br><span class="line">λ git fetch upstream</span><br><span class="line">remote: Counting objects: 3, done.</span><br><span class="line">remote: Compressing objects: 100% (2/2), done.</span><br><span class="line">remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0</span><br><span class="line">Unpacking objects: 100% (3/3), done.</span><br><span class="line">From https://github.com/imhuay-m/learn-git</span><br><span class="line">   5883321..2528293  master     -&gt; upstream/master</span><br><span class="line"></span><br><span class="line">λ git merge master/upstream</span><br><span class="line">merge: master/upstream - not something we can merge</span><br><span class="line"></span><br><span class="line">λ git merge upstream/master</span><br><span class="line">Merge made by the &apos;recursive&apos; strategy.</span><br><span class="line"> README.md | 2 ++</span><br><span class="line"> 1 file changed, 2 insertions(+)</span><br><span class="line"></span><br><span class="line">λ git push</span><br><span class="line">Counting objects: 8, done.</span><br><span class="line">Delta compression using up to 4 threads.</span><br><span class="line">Compressing objects: 100% (6/6), done.</span><br><span class="line">Writing objects: 100% (8/8), 1.26 KiB | 1.26 MiB/s, done.</span><br><span class="line">Total 8 (delta 0), reused 0 (delta 0)</span><br><span class="line">To https://github.com/imhuay/learn-git.git</span><br><span class="line">   e704edf..0cefd29  master -&gt; master</span><br></pre></td></tr></table></figure>
+<p>更新成功</p>
+<blockquote>
+<p><code>git merge upstream/master</code> 不能写成 <code>git merge master/upstream</code></p>
+</blockquote>
+<h3 id="本地仓库和源仓库修改了同一文件，有冲突"><a href="#本地仓库和源仓库修改了同一文件，有冲突" class="headerlink" title="本地仓库和源仓库修改了同一文件，有冲突"></a>本地仓库和源仓库修改了同一文件，有冲突</h3><p>步骤是一样的，略</p>
+<p>这种冲突是无法自动解决的，先记录下发生冲突的提示<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">λ git merge upstream/master</span><br><span class="line">Auto-merging README.md</span><br><span class="line">CONFLICT (content): Merge conflict in README.md</span><br><span class="line">Automatic merge failed; fix conflicts and then commit the result.</span><br></pre></td></tr></table></figure></p>
+<p>看一下发生冲突的文件<code>README.md</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="line">Test4: add 2</span><br><span class="line">=======</span><br><span class="line">Test3: add 1</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; upstream/master</span><br></pre></td></tr></table></figure></p>
+<p><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> 表示本地的修改（当前更改）</p>
+<p><code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; upstream/master</code> 表示来自源仓库的修改（传入的更改）</p>
+<p>这里保留来自源仓库的修改，更改后需要先 <code>git add</code> 和 <code>git commit</code>，然后再<code>git merge</code>就能成功了</p>
+<blockquote>
+<p>一些编辑器/IDE可以帮助你快速处理这些修改，比如 VSCode</p>
+<p><img src="/images/git-fork后如何同步源仓库/VSCode处理冲突.png" alt="VSCode处理冲突"></p>
+</blockquote>
+<h3 id="本地仓库和源仓库修改了同一文件，但是没有冲突"><a href="#本地仓库和源仓库修改了同一文件，但是没有冲突" class="headerlink" title="本地仓库和源仓库修改了同一文件，但是没有冲突"></a>本地仓库和源仓库修改了同一文件，但是没有冲突</h3><p>测试了一下， git 识别的并不十分准确，比如只是新增了一个空行，应该是不冲突的，但是依然发生了冲突。</p>
+<p>这个还是情况处理吧。</p>
+<blockquote>
+<p>注意：一旦你处理了这个冲突，无论你做了什么修改，git 将不再处理该冲突，<strong>即使与源仓库不一致</strong>。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git/" rel="tag"># git</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/10/NLP-词向量/" rel="next" title="NLP-词向量">
+                <i class="fa fa-chevron-left"></i> NLP-词向量
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="huay" />
+            
+              <p class="site-author-name" itemprop="name">huay</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">23</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/imhuay" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:imhuay@163.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.kaggle.com/imhuay/kernels" target="_blank" title="Kaggle"><i class="fa fa-fw fa-cubes"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://stackoverflow.com/users/8000475/imhuay" target="_blank" title="StackOverflow"><i class="fa fa-fw fa-stack-overflow"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.nowcoder.com/profile/5608104" target="_blank" title="牛客"><i class="fa fa-fw fa-vk"></i></a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开始"><span class="nav-number">1.</span> <span class="nav-text">开始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何保持仓库副本、本地副本-与-源仓库同步更新？"><span class="nav-number">2.</span> <span class="nav-text">如何保持仓库副本、本地副本 与 源仓库同步更新？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">3.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#副本仓库没有更新，源仓库更新了"><span class="nav-number">3.1.</span> <span class="nav-text">副本仓库没有更新，源仓库更新了</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地仓库添加了新的文件，源仓库没有更新"><span class="nav-number">3.2.</span> <span class="nav-text">本地仓库添加了新的文件，源仓库没有更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地仓库和源仓库修改了不同的文件"><span class="nav-number">3.3.</span> <span class="nav-text">本地仓库和源仓库修改了不同的文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地仓库和源仓库修改了同一文件，有冲突"><span class="nav-number">3.4.</span> <span class="nav-text">本地仓库和源仓库修改了同一文件，有冲突</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地仓库和源仓库修改了同一文件，但是没有冲突"><span class="nav-number">3.5.</span> <span class="nav-text">本地仓库和源仓库修改了同一文件，但是没有冲突</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate"> 
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">huay</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -107,7 +107,7 @@
 <meta property="og:site_name" content="huay&#39;s Blog">
 <meta property="og:description" content="什么是 Capsule (胶囊)？ 什么是“动态路由”？ 举个栗子 动态路由的伪代码   CapsNet 的实现 CapsNet 的应用 Reference">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-10T07:26:34.694Z">
+<meta property="og:updated_time" content="2018-04-10T11:35:04.655Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Capsule 笔记 (CapsNet)">
 <meta name="twitter:description" content="什么是 Capsule (胶囊)？ 什么是“动态路由”？ 举个栗子 动态路由的伪代码   CapsNet 的实现 CapsNet 的应用 Reference">
@@ -378,8 +378,8 @@
 <h2 id="什么是-Capsule-胶囊-？"><a href="#什么是-Capsule-胶囊-？" class="headerlink" title="什么是 Capsule (胶囊)？"></a>什么是 Capsule (胶囊)？</h2><p>虽然神经网络的输入输出都支持向量，但是对单个<strong>神经元</strong>而言，它的 in/out 始终是 <strong>scalar(标量)</strong>。</p>
 <p>那什么是“胶囊”？如果把神经元的 in/out 都改成<strong>向量</strong>，那么这个神经元就是<strong>胶囊</strong>。实现时，胶囊实际上由一组神经元构成。</p>
 <p>Hinton 的解释是：每一个胶囊表示一个属性，而胶囊的向量则表示这个属性的“标架”。也就是说，我们以前只是用一个标量表示有没有这个特征（比如有没有羽毛），现在我们用一个向量来表示，不仅仅表示有没有，还表示“有什么样的”（比如有什么颜色、什么纹理的羽毛），如果这样理解，就是说在对单个特征的表达上更丰富了。</p>
-<h2 id="什么是“动态路由”？"><a href="#什么是“动态路由”？" class="headerlink" title="什么是“动态路由”？"></a>什么是“动态路由”？</h2><p>这里的“动态路由”实际上指的是就是<strong>聚类</strong>中的迭代算法，而 Capsule 的<strong>核心思想</strong>就是<strong>输出是输入的某种聚类结果</strong></p>
-<p>所以，“动态路由”的细节并不固定，这取决于使用的迭代方法；比如，关于 Capsule 的新文 <a href="https://openreview.net/pdf?id=HJWLfGWRb" target="_blank" rel="noopener">Matrix capsules with EM routing</a> 使用的就是<strong>Gaussian Mixture Model</strong>作为聚类算法</p>
+<h2 id="什么是“动态路由”？"><a href="#什么是“动态路由”？" class="headerlink" title="什么是“动态路由”？"></a>什么是“动态路由”？</h2><p>这里的“动态路由”可以理解为<strong>聚类</strong>中的迭代算法，而 Capsule 的<strong>核心思想</strong>就是<strong>输出是输入的某种聚类结果</strong></p>
+<p>所以，“动态路由”的细节并不固定，这取决于使用的迭代方法；比如，关于 Capsule 的新文 <a href="https://openreview.net/pdf?id=HJWLfGWRb" target="_blank" rel="noopener">Matrix capsules with EM routing</a> 就是将<strong>Gaussian Mixture Model</strong>作为聚类算法</p>
 <h3 id="举个栗子"><a href="#举个栗子" class="headerlink" title="举个栗子"></a>举个栗子</h3><p>考虑一个向量序列 $(u_1,u_2,…,u_n)$，我现在要想办法将这 n 个向量整合成一个向量 $v$ (encoder)</p>
 <p>建模方法有很多，比如 LSTM；但是这里考虑将 $v$ 表示成原向量的线性组合，即</p>
 <p>$$ v = \sum_{i=1}^n \lambda_i u_i<br>$$</p>
@@ -543,7 +543,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -584,7 +584,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">13</span>
+                      
+                    
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
