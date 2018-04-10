@@ -99,18 +99,18 @@
 
 
 
-  <meta name="description" content="记录可能会在面试时被问到的经典算法相关问题。">
+  <meta name="description" content="高级算法：  局部敏感哈希 海量数据 TopK …">
 <meta name="keywords" content="面试,算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="经典算法问题记录">
+<meta property="og:title" content="高级算法">
 <meta property="og:url" content="http://yoursite.com/2018/04/03/面试-经典算法/index.html">
 <meta property="og:site_name" content="huay&#39;s Blog">
-<meta property="og:description" content="记录可能会在面试时被问到的经典算法相关问题。">
+<meta property="og:description" content="高级算法：  局部敏感哈希 海量数据 TopK …">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-04T16:18:18.000Z">
+<meta property="og:updated_time" content="2018-04-08T13:47:07.904Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="经典算法问题记录">
-<meta name="twitter:description" content="记录可能会在面试时被问到的经典算法相关问题。">
+<meta name="twitter:title" content="高级算法">
+<meta name="twitter:description" content="高级算法：  局部敏感哈希 海量数据 TopK …">
 
 
 
@@ -127,7 +127,7 @@
   };
 </script>
 
-  <title>经典算法问题记录 | huay's Blog</title>
+  <title>高级算法 | huay's Blog</title>
   
 
 
@@ -311,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">经典算法问题记录</h1>
+          <h1 class="post-title" itemprop="name headline">高级算法</h1>
         
 
         <div class="post-meta">
@@ -346,8 +346,6 @@
           
 
           
-              <div class="post-description">记录可能会在面试时被问到的经典算法相关问题。</div>
-          
 
         </div>
       </header>
@@ -362,7 +360,14 @@
       
 
       
-        <h2 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h2><h3 id="MapReduce"><a href="#MapReduce" class="headerlink" title="MapReduce"></a>MapReduce</h3><h3 id="局部敏感哈希-Locality-Sensitive-Hashing-LSH"><a href="#局部敏感哈希-Locality-Sensitive-Hashing-LSH" class="headerlink" title="局部敏感哈希 (Locality-Sensitive Hashing, LSH)"></a>局部敏感哈希 (Locality-Sensitive Hashing, LSH)</h3><p><strong>问题背景</strong>：海量数据快速查找</p>
+        <p>高级算法：</p>
+<ul>
+<li>局部敏感哈希</li>
+<li>海量数据 TopK</li>
+<li>…</li>
+</ul>
+<a id="more"></a>
+<h2 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h2><h3 id="MapReduce"><a href="#MapReduce" class="headerlink" title="MapReduce"></a>MapReduce</h3><h3 id="局部敏感哈希-Locality-Sensitive-Hashing-LSH"><a href="#局部敏感哈希-Locality-Sensitive-Hashing-LSH" class="headerlink" title="局部敏感哈希 (Locality-Sensitive Hashing, LSH)"></a>局部敏感哈希 (Locality-Sensitive Hashing, LSH)</h3><p><strong>问题背景</strong>：海量数据快速查找</p>
 <p><strong>常用技术</strong>：最近邻查找（Nearest Neighbor），如 kd-tree；近似最近邻查找（Approximate Nearest Neighbor, ANN），如各种kd-tree 的衍生。LSH 属于 ANN 中的一种技术</p>
 <p>与传统 Hash 不同，LSH 的<strong>基本思想</strong>是：两条原本<strong>相似/相邻</strong>的数据在经过相同的 Hash 后，依然<strong>相似/相邻</strong>的概率尽可能大，这期间可能伴随着维度的降低。也就是说，我们希望原先相邻的两个数据能够被 Hash 到相同的区域（Hash 桶）。这样在查找时，直接定位到某个 Hash 桶内，进而找到所有可能相似的信息。</p>
 <p>LSH 使用的 Hash 函数需要满足以下两个条件：</p>
@@ -501,7 +506,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">22</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -538,7 +543,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -802,6 +811,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
   
