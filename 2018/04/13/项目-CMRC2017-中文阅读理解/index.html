@@ -99,22 +99,25 @@
 
 
 
-  <meta name="keywords" content="NLP,中文分词">
+  <meta name="description" content="从 2017 年的 CCL 会议开始，HFL（哈工大讯飞联合实验室） 计划同步举办评测活动。这次聚焦的任务是机器阅读理解（Machine Reading Comprehension） 数据集和任务格式是哈工大去年提出的。工大去年的论文《Consensus Attention-based Neural Networks for Chinese Reading Comprehension》研究了另一个">
+<meta name="keywords" content="NLP,项目">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NLP-中文分词">
-<meta property="og:url" content="http://yoursite.com/2018/04/11/NLP-中文分词/index.html">
+<meta property="og:title" content="讯飞杯 CMRC-2017 中文阅读理解评测记录">
+<meta property="og:url" content="http://yoursite.com/2018/04/13/项目-CMRC2017-中文阅读理解/index.html">
 <meta property="og:site_name" content="huay&#39;s Blog">
+<meta property="og:description" content="从 2017 年的 CCL 会议开始，HFL（哈工大讯飞联合实验室） 计划同步举办评测活动。这次聚焦的任务是机器阅读理解（Machine Reading Comprehension） 数据集和任务格式是哈工大去年提出的。工大去年的论文《Consensus Attention-based Neural Networks for Chinese Reading Comprehension》研究了另一个">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-11T07:43:53.000Z">
+<meta property="og:updated_time" content="2018-04-17T07:19:36.184Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NLP-中文分词">
+<meta name="twitter:title" content="讯飞杯 CMRC-2017 中文阅读理解评测记录">
+<meta name="twitter:description" content="从 2017 年的 CCL 会议开始，HFL（哈工大讯飞联合实验室） 计划同步举办评测活动。这次聚焦的任务是机器阅读理解（Machine Reading Comprehension） 数据集和任务格式是哈工大去年提出的。工大去年的论文《Consensus Attention-based Neural Networks for Chinese Reading Comprehension》研究了另一个">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/04/11/NLP-中文分词/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/04/13/项目-CMRC2017-中文阅读理解/"/>
 
 
 
@@ -124,7 +127,7 @@
   };
 </script>
 
-  <title>NLP-中文分词 | huay's Blog</title>
+  <title>讯飞杯 CMRC-2017 中文阅读理解评测记录 | huay's Blog</title>
   
 
 
@@ -296,7 +299,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/11/NLP-中文分词/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/13/项目-CMRC2017-中文阅读理解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="huay">
@@ -313,7 +316,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">NLP-中文分词
+          <h1 class="post-title" itemprop="name headline">讯飞杯 CMRC-2017 中文阅读理解评测记录
               
             
           </h1>
@@ -332,7 +335,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T15:33:23+08:00">2018-04-11</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-13T15:12:40+08:00">2018-04-13</time>
             
 
             
@@ -369,7 +372,70 @@
       
 
       
-        
+        <p>从 2017 年的 CCL 会议开始，HFL（哈工大讯飞联合实验室） 计划同步举办评测活动。这次聚焦的任务是机器阅读理解（Machine Reading Comprehension）</p>
+<p>数据集和任务格式是哈工大去年提出的。工大去年的论文<a href="https://arxiv.org/abs/1607.02250" target="_blank" rel="noopener">《Consensus Attention-based Neural Networks for Chinese Reading Comprehension》</a>研究了另一个相同形式的数据集。是用通用的阅读理解模型做的。</p>
+<p>我的任务是设计一个 Baseline 模型，为后续的研究铺路。所以要求不高，比官方给的 Baseline-AS Reader (acc 69.75%) 略高或者差不多即可。</p>
+<a id="more"></a>
+<hr>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong>任务说明</strong></p>
+<blockquote>
+<p>以<strong>单个词</strong>为答案的填空类问题、用户提问类问题。答案在上下文中。</p>
+</blockquote>
+<p><strong>数据格式</strong></p>
+<pre><code>篇章：由若干个连续的句子组成的一个文本段落，但文中缺少某一个词，标记为 XXXXX
+问题：缺少的词 XXXXX 所在的句子
+答案：缺少的词 XXXXX
+</code></pre><p><strong>示例</strong></p>
+<pre><code>1 ||| 工商 协进会 报告 ， 12月 消费者 信心 上升 到 78.1 ， 明显 高于 11月 的 72 。
+2 ||| 另 据 《 华尔街 日报 》 报道 ， 2013年 是 1995年 以来 美国 股市 表现 最 好 的 一 年 。
+3 ||| 这 一 年 里 ， 投资 美国 股市 的 明智 做法 是 追 着 “ 傻钱 ” 跑 。
+4 ||| 所谓 的 “ 傻钱 ” XXXXX ， 其实 就 是 买 入 并 持有 美国 股票 这样 的 普通 组合 。
+5 ||| 这个 策略 要 比 对冲 基金 和 其它 专业 投资者 使用 的 更为 复杂 的 投资 方法 效果 好 得 多 。
+&lt;qid_1&gt; ||| 所谓 的 “ 傻钱 ” XXXXX ， 其实 就 是 买 入 并 持有 美国 股票 这样 的 普通 组合 。
+</code></pre><p><strong>答案</strong></p>
+<pre><code>&lt;qid_1&gt; ||| 策略
+</code></pre><blockquote>
+<p>分隔符” ||| “之前的数字表示的是句子序号，XXXXX表示文中缺少的词。在本例中，前1~5行是篇章的部分，最后一行（即例中第6行）包含问题ID（用于索引）、问题句和答案。</p>
+</blockquote>
+<p>所有<a href="https://github.com/ymcui/cmrc2017" target="_blank" rel="noopener">评测数据 </a></p>
+<hr>
+<p>这次比赛虽说也是阅读理解，但是跟常规的 Reading Comprehension 还是有所区别，更简单一些。</p>
+<blockquote>
+<p>通常所说的阅读理解指的是：给定材料和问题，从材料中找到问题的答案。完形填空可以认为是阅读理解任务的一个子集。</p>
+</blockquote>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>因为完型填空的答案就在上下文中，所以可以参考<strong>语言模型</strong>的思路。</p>
+<p>语言模型根据前 <code>n</code> 个词预测下一个词；这里则是从上下文中挑一个词。</p>
+<p>模型框架采用的是的 encoder-decoder 结构，这里可以看作是 seq2seq 的简化版 “seq2word”</p>
+<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><h3 id="Encoder-部分"><a href="#Encoder-部分" class="headerlink" title="Encoder 部分"></a>Encoder 部分</h3><p>Encoder 部分是一个多层 bi-LSTM。</p>
+<p>以 XXXXX 为分隔，将材料分为“上文”和“下文”。然后将“上文”和“下文”依次传入 Encoder，得到各自的特征；然后将两部分的特征拼接，这样就得到了整段材料的特征——<strong>全局特征</strong>。</p>
+<blockquote>
+<p>除了拼接，也可以尝试 sum 或 mean，这些做法可能会造成信息损失，但也可能更好的组合上下文信息。不过我没有做对比实验。</p>
+</blockquote>
+<p>为了能<strong>融合</strong>上下文中的信息，“上文”和“下文”是共享参数的。</p>
+<blockquote>
+<p>如果需要解释共享的理由，可以参考人在做完形填空时的思考过程，上下文会同时影响你的判断。</p>
+</blockquote>
+<h3 id="Decoder-部分"><a href="#Decoder-部分" class="headerlink" title="Decoder 部分"></a>Decoder 部分</h3><p>Decoder 部分就是一个简单的全连接层。</p>
+<p>如果要在一个特定的词表中搜索最可能的词，一个简单的做法是用一个全连接层，节点数是就是词表数，然后对输出做 softmax。</p>
+<p>也就是说，特征与词的配对是通过“内积”来确定的（cosine相似度）。</p>
+<blockquote>
+<p>因为这里的词表来自上下文，数量有限，可以采用这种做法；如果是语言建模，那么需要更复杂的解码方法，比如 viterbi 算法。</p>
+</blockquote>
+<p>根据这个思路，可以让 Encoder 的<strong>输出维度</strong>与词向量相同，然后将全局特征与词向量“配对”（内积）。然后将<strong>配对结果</strong>经过一个 softmax 层，这样就能得到上下文中每个词作为答案的概率了。</p>
+<p>更好的做法是直接将输出特征与 LSTM 的最终状态做内积，这个做法提升了 3%~4% 的准确率。因为词向量经过 Encoder 后可能已经偏离了原来的向量空间。而 LSTM 的状态向量与输出向量</p>
+<h2 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h2><ol>
+<li><p>bi-LSTM 的层数不宜过大，2 到 3 层比较合适，对比 1 层有明显提升；再高就几乎没有效果了</p>
+</li>
+<li><p>Mask 操作；为了使填充位置不对 softmax 的结果产生影响，所以对所有填充位置减去一个大的常数</p>
+</li>
+<li><p>因为上下文中的每个词出现可能不止一次，所以需要统计每个词出现总的概率</p>
+</li>
+<li><p>停用词处理；因为会累计每个词出现的概率，所以必须去掉出现频繁的停用词</p>
+</li>
+<li><p>使用 gensim 训练词向量时， 设 <code>min_count=1</code>，防止答案被过滤掉，因为很多答案可能只在上下文中出现了一次；同时，因为完形填空就是利用用上下文预测中间词，所以可能使用 CBOW 模型（<code>sg=0</code>）会更好一点，不过我没做对比实验，因为本身语料就比较小，词向量的影响也不会太大</p>
+</li>
+</ol>
+<h2 id="关于阅读理解的一般模型"><a href="#关于阅读理解的一般模型" class="headerlink" title="关于阅读理解的一般模型"></a>关于阅读理解的一般模型</h2>
       
     </div>
 
@@ -391,7 +457,7 @@
           
             <a href="/tags/NLP/" rel="tag"># NLP</a>
           
-            <a href="/tags/中文分词/" rel="tag"># 中文分词</a>
+            <a href="/tags/项目/" rel="tag"># 项目</a>
           
         </div>
       
@@ -404,8 +470,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/11/NLP-word2vec实现小结/" rel="next" title="word2vec 实现小结 (TensorFlow)">
-                <i class="fa fa-chevron-left"></i> word2vec 实现小结 (TensorFlow)
+              <a href="/2018/04/13/ML-逻辑斯蒂回归/" rel="next" title="从逻辑斯蒂回归 (LR) 开始">
+                <i class="fa fa-chevron-left"></i> 从逻辑斯蒂回归 (LR) 开始
               </a>
             
           </div>
@@ -414,8 +480,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/04/13/项目-SMP2016-微博用户画像/" rel="prev" title="SMP Cup2016 微博用户画像记录">
-                SMP Cup2016 微博用户画像记录 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/04/17/python-正则表达式/" rel="prev" title="python 正则表达式记录">
+                python 正则表达式记录 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -465,8 +531,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -593,6 +668,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路"><span class="nav-number">2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型"><span class="nav-number">3.</span> <span class="nav-text">模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Encoder-部分"><span class="nav-number">3.1.</span> <span class="nav-text">Encoder 部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Decoder-部分"><span class="nav-number">3.2.</span> <span class="nav-text">Decoder 部分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现细节"><span class="nav-number">4.</span> <span class="nav-text">实现细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于阅读理解的一般模型"><span class="nav-number">5.</span> <span class="nav-text">关于阅读理解的一般模型</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

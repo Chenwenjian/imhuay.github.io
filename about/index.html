@@ -49,19 +49,19 @@
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
 
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
 
 
-  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
 
 
 
@@ -76,7 +76,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Gemini',
-    version: '6.0.6',
+    version: '6.1.0',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: false,
     fastclick: false,
@@ -106,7 +106,7 @@
 <meta property="og:site_name" content="huay&#39;s Blog">
 <meta property="og:description" content="我的简历个人信息 华阳/男/1993 硕士在读（19毕业）/哈尔滨工业大学深圳研究生院/计算机技术 Email: imhuay@163.com GitHub: https://github.com/imhuay 技术博客: https://imhuay.github.io  求职意向 北京/深圳/杭州  算法工程师、自然语言处理  个人描述 自学能力强，自律，对知识有系统的学习思路 熟练使用 Py">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-05T11:09:53.000Z">
+<meta property="og:updated_time" content="2018-04-13T05:44:57.356Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于我">
 <meta name="twitter:description" content="我的简历个人信息 华阳/男/1993 硕士在读（19毕业）/哈尔滨工业大学深圳研究生院/计算机技术 Email: imhuay@163.com GitHub: https://github.com/imhuay 技术博客: https://imhuay.github.io  求职意向 北京/深圳/杭州  算法工程师、自然语言处理  个人描述 自学能力强，自律，对知识有系统的学习思路 熟练使用 Py">
@@ -177,9 +177,7 @@
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"> 
-
-<div class="site-brand-wrapper">
+      <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
 
@@ -204,15 +202,17 @@
   </div>
 </div>
 
-<nav class="site-nav">
-  
 
+
+
+<nav class="site-nav">
   
     <ul id="menu" class="menu">
       
         
         
           
+  
   <li class="menu-item menu-item-home">
     <a href="/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
@@ -222,6 +222,7 @@
         
         
           
+  
   <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
@@ -231,7 +232,8 @@
         
         
           
-  <li class="menu-item menu-item-about">
+  
+  <li class="menu-item menu-item-about menu-item-active">
     <a href="/about/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
 </li>
@@ -240,6 +242,7 @@
         
         
           
+  
   <li class="menu-item menu-item-tags">
     <a href="/tags/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
@@ -247,6 +250,7 @@
 
       
 
+      
       
     </ul>
   
@@ -257,11 +261,12 @@
 </nav>
 
 
+
   
 
 
 
- </div>
+</div>
     </header>
 
     
@@ -339,28 +344,24 @@
 <li>CET6 通过，具备优秀的英文读写能力</li>
 </ul>
 <h2 id="研究经历"><a href="#研究经历" class="headerlink" title="研究经历"></a>研究经历</h2><ul>
-<li>Sentence 建模研究 （NLP + 深度学习） 2017.06-至今<ul>
+<li><p>Sentence 建模研究 （NLP + 深度学习） 2017.06-至今</p>
+<ul>
 <li>详细研究了不同的词向量模型，包括 word2vec, GloVe, fasttext 等</li>
 <li>利用词向量构建 sentence embedding，并实现了相关模型</li>
 <li>目前专注于 Sentence pair 建模的研究，试图构建一个端到端的匹配模型</li>
 </ul>
 </li>
-<li>微博用户画像 （机器学习 + NLP） 2017.03-2017.05<ul>
-<li>负责数据清洗与特征抽取，包括一阶特征与高阶特征</li>
-<li>优化中文分词，使用 word2vec 对微博文本数据构建中文词向量</li>
-<li>利用不同超参数与分类算法构建了一个集成模型，小幅提升了精度</li>
+<li><p>微博用户画像 （机器学习 + NLP） 2017.03-2017.05</p>
+<ul>
+<li>负责数据清洗与特征工程，包括基本特征与高阶特征</li>
+<li>分词，使用 word2vec 对微博文本数据构建中文词向量</li>
+<li>利用不同超参数与分类算法构建了集成模型</li>
 </ul>
 </li>
-<li>安卓恶意软件识别 （机器学习） 2016.12-2017.01<ul>
-<li>使用反编译工具从 apk 的相关文件中抽取基本特征（权限信息）</li>
-<li>负责编写决策树算法作为 baseline (90%)</li>
-<li>该系统的最终识别精度达到 97%，排名 2/18</li>
-</ul>
-</li>
-<li>中文信息检索系统 （爬虫） 2016.06-2016.08<ul>
+<li><p>中文信息检索系统 （爬虫） 2016.06-2016.08</p>
+<ul>
 <li>主要负责利用爬虫搜集领域数据</li>
-<li>利用分布式爬虫从豆瓣抓取了百万条影视信息</li>
-<li>设计了简单的前台展示页面</li>
+<li>从豆瓣抓取了百万条影视信息</li>
 </ul>
 </li>
 </ul>
@@ -391,8 +392,6 @@
 <h2 id="技能清单"><a href="#技能清单" class="headerlink" title="技能清单"></a>技能清单</h2><ul>
 <li>Python ●●●●●○</li>
 <li>Tensorflow ●●●●○○</li>
-<li>Deep Learning ●●●●○○</li>
-<li>Machine Learning ●●●○○○</li>
 <li>Scikit-learn/Pandas ●●●●○○</li>
 <li>C/C++/Java ●●●○○○</li>
 <li>English(CET6) ●●●●○○</li>
@@ -469,7 +468,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">26</span>
+                    <span class="site-state-item-count">29</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -518,7 +517,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">17</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -604,7 +607,7 @@
     <footer id="footer" class="footer">
       <div class="footer-inner">
         <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
-  <span class="with-love" id="animate"> 
+  <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">huay</span>
@@ -617,7 +620,7 @@
 
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.6.0</div>
 
 
 
@@ -625,7 +628,7 @@
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.1.0</div>
 
 
 
@@ -713,32 +716,32 @@
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
 
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
 
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script>
 
 
 

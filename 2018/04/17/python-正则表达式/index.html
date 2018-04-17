@@ -99,22 +99,25 @@
 
 
 
-  <meta name="keywords" content="NLP,中文分词">
+  <meta name="description" content="“如果你想用正则表达式来解决问题，那么你面临的问题将会变成两个！” 正则表达式是个好东西，但是每次想用它的时候都感到头大。 这里简单记录一下 Python 中 re 模块的基本用法，以作备忘。">
+<meta name="keywords" content="pytohn,备忘">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NLP-中文分词">
-<meta property="og:url" content="http://yoursite.com/2018/04/11/NLP-中文分词/index.html">
+<meta property="og:title" content="python 正则表达式记录">
+<meta property="og:url" content="http://yoursite.com/2018/04/17/python-正则表达式/index.html">
 <meta property="og:site_name" content="huay&#39;s Blog">
+<meta property="og:description" content="“如果你想用正则表达式来解决问题，那么你面临的问题将会变成两个！” 正则表达式是个好东西，但是每次想用它的时候都感到头大。 这里简单记录一下 Python 中 re 模块的基本用法，以作备忘。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-11T07:43:53.000Z">
+<meta property="og:updated_time" content="2018-04-17T14:33:36.258Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NLP-中文分词">
+<meta name="twitter:title" content="python 正则表达式记录">
+<meta name="twitter:description" content="“如果你想用正则表达式来解决问题，那么你面临的问题将会变成两个！” 正则表达式是个好东西，但是每次想用它的时候都感到头大。 这里简单记录一下 Python 中 re 模块的基本用法，以作备忘。">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/04/11/NLP-中文分词/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/04/17/python-正则表达式/"/>
 
 
 
@@ -124,7 +127,7 @@
   };
 </script>
 
-  <title>NLP-中文分词 | huay's Blog</title>
+  <title>python 正则表达式记录 | huay's Blog</title>
   
 
 
@@ -296,7 +299,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/11/NLP-中文分词/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/17/python-正则表达式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="huay">
@@ -313,7 +316,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">NLP-中文分词
+          <h1 class="post-title" itemprop="name headline">python 正则表达式记录
               
             
           </h1>
@@ -332,7 +335,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T15:33:23+08:00">2018-04-11</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-17T15:19:10+08:00">2018-04-17</time>
             
 
             
@@ -369,7 +372,165 @@
       
 
       
-        
+        <p>“如果你想用正则表达式来解决问题，那么你面临的问题将会变成两个！”</p>
+<p>正则表达式是个好东西，但是每次想用它的时候都感到头大。</p>
+<p>这里简单记录一下 Python 中 re 模块的基本用法，以作备忘。</p>
+<a id="more"></a>
+<hr>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>学习正则的关键是，以完成任务为目标；想要完全掌握正则，可以去看看那本《正则表达式》的厚度清醒一下。</p>
+<p>正则的强大之处不多赘述，最基本的用法是“模式匹配/查找”，这在<strong>爬虫</strong>里面用的比较多。</p>
+<p>而我主要用正则来<strong>清洗文本数据</strong>，所以，对我来说正则最常用的功能是两个：</p>
+<ol>
+<li>保留你需要的</li>
+<li>去掉你不要的</li>
+</ol>
+<p>这两个可以看做是一个任务，但是分开来处理会方便很多。</p>
+<h2 id="re-基本语法"><a href="#re-基本语法" class="headerlink" title="re 基本语法"></a>re 基本语法</h2><p>下表列出了常用的 re 语法。如果你提供了 <code>flag</code> 参数，某些元素的含义可能会改变。</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> <code>.</code></td>
+<td>通配符；匹配除换行符外的任意字符，如果 <code>flag=re.DOTALL</code> 则包括换行符</td>
+</tr>
+<tr>
+<td> <code>^</code></td>
+<td>匹配字符串的开头</td>
+</tr>
+<tr>
+<td> <code>$</code></td>
+<td>匹配字符串的末尾</td>
+</tr>
+<tr>
+<td> <code>*</code></td>
+<td>匹配 0 次或多次</td>
+</tr>
+<tr>
+<td> <code>+</code></td>
+<td>匹配 1 次或多次</td>
+</tr>
+<tr>
+<td> <code>{n}</code></td>
+<td>匹配 n 次</td>
+</tr>
+<tr>
+<td> <code>{m, n}</code></td>
+<td>匹配 m 到 n 次，贪婪匹配</td>
+</tr>
+<tr>
+<td> <code>?</code></td>
+<td>非贪婪匹配</td>
+</tr>
+<tr>
+<td> <code>[...]</code></td>
+<td>匹配在[]中的字符；如 [amk] 匹配 ‘a’，’m’或’k’；可以用 <code>-</code> 表示一个范围，如 [a-zA-Z] 匹配所有英文字母、<strong>[\u4e00-\u9fa5] 匹配所有中文</strong></td>
+</tr>
+<tr>
+<td> <code>[^...]</code></td>
+<td>匹配不在 [] 中的字符</td>
+</tr>
+<tr>
+<td> <code>()</code></td>
+<td>匹配括号内的表达式，表示一个组</td>
+</tr>
+<tr>
+<td> <code>\w</code></td>
+<td>匹配字母数字及下划线</td>
+</tr>
+<tr>
+<td> <code>\W</code></td>
+<td>匹配非字母数字及下划线</td>
+</tr>
+<tr>
+<td> <code>\s</code></td>
+<td>匹配任意空白字符，等价于 [\t\n\r\f]</td>
+</tr>
+<tr>
+<td> <code>\S</code></td>
+<td>匹配任意非空字符</td>
+</tr>
+<tr>
+<td> <code>\d</code></td>
+<td>匹配任意数字，等价于 [0-9]</td>
+</tr>
+<tr>
+<td> <code>\D</code></td>
+<td>匹配任意非数字</td>
+</tr>
+</tbody>
+</table>
+<p>数据清洗时最常用的就是 <code>[...]</code> 和 <code>[^...]</code>，<a href="#使用示例">使用示例</a></p>
+<blockquote>
+<p>注意：正则是按单个字符依次匹配的，所以类似 <code>\w</code> 的转义也是只针对一个字符 </p>
+<p>完整的正则表达式语法，参考 <a href="https://docs.python.org/3/library/re.html" target="_blank" rel="noopener">Python3 官方文档</a>；也可以参考 <a href="https://docs.python.org/2/library/re.html" target="_blank" rel="noopener">Python2 文档</a>，比 Python3 的版本排版更清晰</p>
+</blockquote>
+<h2 id="re-模块的常用函数"><a href="#re-模块的常用函数" class="headerlink" title="re 模块的常用函数"></a>re 模块的常用函数</h2><table>
+<thead>
+<tr>
+<th>用途</th>
+<th>函数声明</th>
+<th>返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 编译</td>
+<td><code>re.compile(pattern, flags=0)</code></td>
+<td><code>re.RegexObject</code> </td>
+</tr>
+<tr>
+<td> 查找</td>
+<td><code>re.search(pattern, string, flags=0)</code></td>
+<td><code>re.MatchObject</code></td>
+</tr>
+<tr>
+<td> 查找</td>
+<td><code>re.findall(pattern, string, flags=0)</code></td>
+<td><code>list</code></td>
+</tr>
+<tr>
+<td> 查找</td>
+<td><code>re.finditer(pattern, string, flags=0)</code></td>
+<td><code>iterator</code></td>
+</tr>
+<tr>
+<td> 替换</td>
+<td><code>re.sub(pattern, repl, string, count=0, flags=0)</code></td>
+<td><code>string</code></td>
+</tr>
+<tr>
+<td> 分割</td>
+<td><code>re.split(pattern, string, maxsplit=0, flags=0)</code></td>
+<td><code>list</code></td>
+</tr>
+</tbody>
+</table>
+<p>其中，比较常用的是 <code>re.sub</code>、<code>re.split</code> 和 <code>re.findall</code>。</p>
+<p><code>re.compile</code> 返回的对象 <code>re.RegexObject</code> 也支持 re 模块下的大部分函数；也就是说，你可以这样调用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 把连续的空白符替换为一个空格</span></span><br><span class="line">line = re.sub(<span class="string">r"(\s)+"</span>, <span class="string">' '</span>, line)</span><br><span class="line"><span class="comment"># 等价于</span></span><br><span class="line">RE_white_space = re.compile(<span class="string">r"(\s)+"</span>)</span><br><span class="line">line = RE_white_space.sub(<span class="string">' '</span>, line)</span><br><span class="line"><span class="comment"># 建议使用第二种写法</span></span><br></pre></td></tr></table></figure>
+<p>使用 <code>re.compile</code> 会提前编译给定的 RE，避免每次都重新编译；不过 Python 也没有那么蠢，它会缓存编译过的 RE。</p>
+<blockquote>
+<p><code>re.match()</code>的用途比较窄，一般只用来做<strong>完全匹配</strong>，关于它与 <code>re.search</code>，参考 <a href="https://docs.python.org/3/library/re.html#search-vs-match" target="_blank" rel="noopener">search() vs. match()</a></p>
+<p>因为几乎用不到它，所以最好别记住它，不然你每次都会纠结它跟 <code>re.search</code> 有什么区别。</p>
+</blockquote>
+<h2 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h2><p>中文语料清洗</p>
+<p>数据格式：</p>
+<pre><code>[&quot;text1&quot;, &quot;text2&quot;, &quot;text3&quot;, ...]
+</code></pre><p>代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">data = [<span class="string">"近日南京市下发《关于加强出租汽车市场规范管理的意见》（代拟稿），按照《意见》规定\n"</span>,</span><br><span class="line">        <span class="string">"Outlook 2010中新增了一个“人物窗格”（People Pane）功能，\n"</span>,</span><br><span class="line">        <span class="string">"Steam上已经发布了超过6800款游戏，而2016年这个数字为5028，2015年为2991款。\n"</span>]</span><br><span class="line"></span><br><span class="line">RE_zh_en = re.compile(<span class="string">r"[^\u4e00-\u9fa5a-zA-Z]"</span>)</span><br><span class="line">RE_white_space = re.compile(<span class="string">r"(\s)+"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> data:</span><br><span class="line">    <span class="comment"># 把除中文、英文外的字符转为空格</span></span><br><span class="line">    line = RE_zh_en.sub(<span class="string">' '</span>, line)</span><br><span class="line">    <span class="comment"># 去掉首尾的空格</span></span><br><span class="line">    line = line.strip()</span><br><span class="line">    <span class="comment"># 把多个空白符转空格</span></span><br><span class="line">    line = RE_white_space.sub(<span class="string">' '</span>, line)</span><br><span class="line">    print(line)</span><br></pre></td></tr></table></figure>
+<p>具体的要做哪些处理视数据而定，<br>一个复杂的例子：gensim 处理 wiki 语料</p>
+<p>处理结果</p>
+<pre><code>近日南京市下发 关于加强出租汽车市场规范管理的意见 代拟稿 按照 意见 规定
+Outlook 中新增了一个 人物窗格 People Pane 功能
+Steam上已经发布了超过 款游戏 而 年这个数字为 年为 款
+</code></pre><p>数据清理后，下一步就是<strong>分词</strong>了，未完待续。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>[1]. <a href="http://www.runoob.com/python/python-reg-expressions.html" target="_blank" rel="noopener">Python 正则表达式</a> | 菜鸟教程 </p>
+
       
     </div>
 
@@ -389,9 +550,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/NLP/" rel="tag"># NLP</a>
+            <a href="/tags/pytohn/" rel="tag"># pytohn</a>
           
-            <a href="/tags/中文分词/" rel="tag"># 中文分词</a>
+            <a href="/tags/备忘/" rel="tag"># 备忘</a>
           
         </div>
       
@@ -404,8 +565,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/11/NLP-word2vec实现小结/" rel="next" title="word2vec 实现小结 (TensorFlow)">
-                <i class="fa fa-chevron-left"></i> word2vec 实现小结 (TensorFlow)
+              <a href="/2018/04/13/项目-CMRC2017-中文阅读理解/" rel="next" title="讯飞杯 CMRC-2017 中文阅读理解评测记录">
+                <i class="fa fa-chevron-left"></i> 讯飞杯 CMRC-2017 中文阅读理解评测记录
               </a>
             
           </div>
@@ -413,10 +574,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/04/13/项目-SMP2016-微博用户画像/" rel="prev" title="SMP Cup2016 微博用户画像记录">
-                SMP Cup2016 微博用户画像记录 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -465,8 +622,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -593,6 +759,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#re-基本语法"><span class="nav-number">2.</span> <span class="nav-text">re 基本语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#re-模块的常用函数"><span class="nav-number">3.</span> <span class="nav-text">re 模块的常用函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用示例"><span class="nav-number">4.</span> <span class="nav-text">使用示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
