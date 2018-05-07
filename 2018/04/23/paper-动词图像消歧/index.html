@@ -109,7 +109,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/paper-动词图像消歧/动词图像消歧.png">
 <meta property="og:image" content="http://yoursite.com/images/paper-动词图像消歧/模型结构.png">
-<meta property="og:updated_time" content="2018-04-24T02:56:43.652Z">
+<meta property="og:updated_time" content="2018-04-26T08:55:57.107Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="(文献阅读) 动词图像消歧">
 <meta name="twitter:description" content="文献名称: Unsupervised Visual Sense Disambiguation for Verbs using Multimodal Embeddings 本文提出了一个新的任务——动词图像消歧 (Visual Sense Disambiguation for verbs) 一个简单的例子  paly 在英文中具有不同的含义，传统的任务中对此没有进行区分；本文的目的是解决这个问题并将">
@@ -410,20 +410,20 @@
 <p>本文提出了一种 Lesk 算法的变体来处理动词 VSD 问题。</p>
 <p>模型结构：</p>
 <p><img src="/images/paper-动词图像消歧/模型结构.png" alt="Schematic overview of the visual sense disambiguation model"></p>
-<p>简单来说，就是分别对图像和文本进行 encode，得到两个<strong>向量</strong> <code>i</code> 和 <code>s</code>，而打分函数 $\Phi$ 就是求这两个向量的 cosine 相似度（文中提到有尝试其他相似度方法，但是效果没有 cosine 方法好）</p>
+<p>简单来说，就是分别对图像和文本进行 encode，得到两个<strong>向量</strong> <code>i</code> 和 <code>s</code>，而打分函数 $\Phi$ 选择的是 cosine 相似度（文中提到有尝试其他相似度方法，但是效果没有 cosine 好）</p>
 <p>$$ \Phi = s \cdot c<br>$$</p>
 <p>（好像并没有训练参数，也没有损失函数）</p>
 <h2 id="特征表示"><a href="#特征表示" class="headerlink" title="特征表示"></a>特征表示</h2><p>下面详细说明向量 <code>s</code> 和 <code>i</code> 的生成过程；</p>
-<h3 id="Sense-Representations-s"><a href="#Sense-Representations-s" class="headerlink" title="Sense Representations (s)"></a>Sense Representations (<code>s</code>)</h3><p>对每个候选动词 <code>v</code>，有两种表示：text-based sense representation $s^t$ 和 visual sense representation $s^c$</p>
+<h3 id="Sense-Representations-s"><a href="#Sense-Representations-s" class="headerlink" title="Sense Representations ($s$)"></a>Sense Representations ($s$)</h3><p>对每个候选动词 <code>v</code>，有两种表示：text-based sense representation $s^t$ 和 visual sense representation $s^c$</p>
 <p>text-based 特征可以理解，每个词都有它的释义及用例，它们都是 text；关键是这个 visual 特征，本文的做法是收集一组图片作为描述<strong>该动词该释义</strong>的特征图片，对其编码后就得到了对应的 visual 特征。</p>
 <blockquote>
-<p>$s^t$ 和 $s^c$ 可以单独作为 $\Phi = s \cdot c$ 中的 $s$，也可以对他们进行组合，也就是之后所说的 multimodal representation。</p>
+<p>$s^t$ 和 $s^c$ 可以单独作为 $\Phi = s \cdot c$ 中的 $s$，也可以对他们进行组合，也就是之后要说的 multimodal representation。</p>
 </blockquote>
 <h4 id="Text-based-Sense-Representation-s-t"><a href="#Text-based-Sense-Representation-s-t" class="headerlink" title="Text-based Sense Representation ($s^t$)"></a>Text-based Sense Representation ($s^t$)</h4><p>Text-based 表示的构建比较简单：先从 OntoNote 上抽取每个含义 s 的定义及用例，然后从 Word2vec 中获得这些词的词向量，最后对这些词向量取平均就得到了<strong>该动词在该含义下的特征表示</strong>，即 $s^t$。<br>（本文也使用了 GloVe，但是效果没有 Word2vec 好）</p>
 <h4 id="Visual-Sense-Representation-s-c"><a href="#Visual-Sense-Representation-s-c" class="headerlink" title="Visual Sense Representation ($s^c$)"></a>Visual Sense Representation ($s^c$)</h4><p>Visual 表示的构建稍微复杂一点，因为没有前人的工作基础，所以首要的工作就是收集图像数据。</p>
 <p>本文的方法是：</p>
 <ul>
-<li><p>对于每个动词的每个释义，抽取 3 个用例，如 paly 的释义 “perform or transmit music”，提取三个用例：1. playing guitar, 2. playing music, 3. playing in a band；然后将每个用例作为查询关键词 <code>q</code> 提交到搜索引擎中（本文用的是 Bing），并使用返回的前 50 张图像作为该释义的特征图片。</p>
+<li><p>对于每个动词的每个释义，抽取 3 个用例，如 paly 的释义 “perform or transmit music”，提取多个用例（3 个以上）：1. playing guitar, 2. playing music, 3. playing in a band；然后将每个用例作为查询关键词 <code>q</code> 提交到搜索引擎中（本文用的是 Bing），并使用返回的前 50 张图像作为该释义的特征图片。</p>
 </li>
 <li><p>收集完这些图片后，使用 CNN 将这些图像转化为特征表示。本文使用的预训练模型是 VGG16 (Simonyan and Zisserman, 2014)，然后使用 CAFFE 模型 (Jia et al., 2014) 来抽取 VGG16 的 fc7 layer 的输出。每张图片将产生一个 4096 维的输出 $c_i$，最后对每张图片的特征求平均就得到了 $s^c$。</p>
 </li>
@@ -432,13 +432,16 @@
 <blockquote>
 <p>不知道这个 CAFFE 和 VGG 之间是什么关系</p>
 </blockquote>
-<h3 id="Image-Representations-i"><a href="#Image-Representations-i" class="headerlink" title="Image Representations (i)"></a>Image Representations (<code>i</code>)</h3><p>同样 <code>i</code> 也分为 $i^t$ 和 $i^c$ 两个表示。</p>
+<h3 id="Image-Representations-i"><a href="#Image-Representations-i" class="headerlink" title="Image Representations ($i$)"></a>Image Representations ($i$)</h3><p>同样 <code>i</code> 也分为 $i^t$ 和 $i^c$ 两个表示。</p>
 <p>$i^c$ 就是图片本身，$i^t$ 来自该图片的类别标签（Object Labels）和文本描述（Captions）。</p>
 <h4 id="Text-based-Image-Representation-i-t"><a href="#Text-based-Image-Representation-i-t" class="headerlink" title="Text-based Image Representation $i^t$"></a>Text-based Image Representation $i^t$</h4><p>$i^t$ 的构建方法同 $s_t$，取它们的词向量求平均。</p>
 <h4 id="Visual-Sense-Representation-i-c"><a href="#Visual-Sense-Representation-i-c" class="headerlink" title="Visual Sense Representation ($i^c$)"></a>Visual Sense Representation ($i^c$)</h4><p>使用 VGG16 的 fc7 layer 的输出向量作为 $i^c$</p>
 <h3 id="组合特征"><a href="#组合特征" class="headerlink" title="组合特征"></a>组合特征</h3><p>除了单独使用 $i^t$ 和 $i^c$ 或 $s^t$ 和 $s^c$，还有将它们组合，即 multimodal representation，记为 $i^m$ 和 $s^m$。</p>
 <p>组合的方式也有不少，最简单的方法是直接拼接两个向量，初此之外还有 CCA 和 DCCA (Hardoon et al., 2004; Andrew et al., 2013; Wang et al., 2015)。</p>
-<p>这样下来 $\Phi = i·s$ 就至少有 $9=3*3$ 种组合方式了。不过本文只做了 $(i^t, s^t)$, $(i^c, s^c)$, $(i^m, s^m)$ 三种组合方式。如果要组合文本和图像特征，则需要调整两者的特征维度，但是文本特征向量一般比较短（不超过 300 维），而图像的特征向量比较长（本文取 4096 维），并不合适。</p>
+<p>这样下来 $\Phi = i·s$ 就至少有 $9=3*3$ 种组合方式了。不过本文只做了 $(i^t, s^t)$, $(i^c, s^c)$, $(i^m, s^m)$ 三种组合方式。</p>
+<blockquote>
+<p>如果要分别使用文本和图像特征，如 $(i^c, s^t)$，则需要使两者的特征维度一致。但是文本特征向量一般比较短（不超过 300 维），而图像的特征向量比较长（本文取 4096 维），所以并不合适。当然这是在以 cosine 函数作为 $\Phi$ 的情况下。</p>
+</blockquote>
 <h2 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h2><ul>
 <li>人工标注（图片描述）的结果要比自动生成的效果好</li>
 <li>Object Label 基本没什么用，单独使用效果一般，加进<code>图片描述</code>和<code>例句</code>反而可能降低效果。</li>
@@ -687,7 +690,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#相关工作"><span class="nav-number">1.1.</span> <span class="nav-text">相关工作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集"><span class="nav-number">2.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型"><span class="nav-number">3.</span> <span class="nav-text">模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务描述"><span class="nav-number">3.1.</span> <span class="nav-text">任务描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型结构"><span class="nav-number">3.2.</span> <span class="nav-text">模型结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征表示"><span class="nav-number">4.</span> <span class="nav-text">特征表示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sense-Representations-s"><span class="nav-number">4.1.</span> <span class="nav-text">Sense Representations (s)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Text-based-Sense-Representation-s-t"><span class="nav-number">4.1.1.</span> <span class="nav-text">Text-based Sense Representation ($s^t$)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Visual-Sense-Representation-s-c"><span class="nav-number">4.1.2.</span> <span class="nav-text">Visual Sense Representation ($s^c$)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Image-Representations-i"><span class="nav-number">4.2.</span> <span class="nav-text">Image Representations (i)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Text-based-Image-Representation-i-t"><span class="nav-number">4.2.1.</span> <span class="nav-text">Text-based Image Representation $i^t$</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Visual-Sense-Representation-i-c"><span class="nav-number">4.2.2.</span> <span class="nav-text">Visual Sense Representation ($i^c$)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组合特征"><span class="nav-number">4.3.</span> <span class="nav-text">组合特征</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验结果"><span class="nav-number">5.</span> <span class="nav-text">实验结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">6.</span> <span class="nav-text">小结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#相关工作"><span class="nav-number">1.1.</span> <span class="nav-text">相关工作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集"><span class="nav-number">2.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型"><span class="nav-number">3.</span> <span class="nav-text">模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务描述"><span class="nav-number">3.1.</span> <span class="nav-text">任务描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型结构"><span class="nav-number">3.2.</span> <span class="nav-text">模型结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征表示"><span class="nav-number">4.</span> <span class="nav-text">特征表示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sense-Representations-s"><span class="nav-number">4.1.</span> <span class="nav-text">Sense Representations ($s$)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Text-based-Sense-Representation-s-t"><span class="nav-number">4.1.1.</span> <span class="nav-text">Text-based Sense Representation ($s^t$)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Visual-Sense-Representation-s-c"><span class="nav-number">4.1.2.</span> <span class="nav-text">Visual Sense Representation ($s^c$)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Image-Representations-i"><span class="nav-number">4.2.</span> <span class="nav-text">Image Representations ($i$)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Text-based-Image-Representation-i-t"><span class="nav-number">4.2.1.</span> <span class="nav-text">Text-based Image Representation $i^t$</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Visual-Sense-Representation-i-c"><span class="nav-number">4.2.2.</span> <span class="nav-text">Visual Sense Representation ($i^c$)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组合特征"><span class="nav-number">4.3.</span> <span class="nav-text">组合特征</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验结果"><span class="nav-number">5.</span> <span class="nav-text">实验结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">6.</span> <span class="nav-text">小结</span></a></li></ol></div>
             
 
           </div>
