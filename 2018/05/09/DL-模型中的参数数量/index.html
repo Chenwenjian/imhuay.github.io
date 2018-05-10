@@ -107,7 +107,7 @@
 <meta property="og:site_name" content="huay&#39;s Blog">
 <meta property="og:description" content="记录模型参数数量的计算方法 最早使用 tensorflow 的时候没怎么注意这个问题；后面高级 API 用的多了，有点忘记怎么计算模型的参数数量了；特此记录以作备忘">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-09T14:37:21.420Z">
+<meta property="og:updated_time" content="2018-05-10T04:02:42.589Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="模型中的参数数量（备忘）">
 <meta name="twitter:description" content="记录模型参数数量的计算方法 最早使用 tensorflow 的时候没怎么注意这个问题；后面高级 API 用的多了，有点忘记怎么计算模型的参数数量了；特此记录以作备忘">
@@ -378,12 +378,12 @@
 <hr>
 <h2 id="参数来源"><a href="#参数来源" class="headerlink" title="参数来源"></a>参数来源</h2><p>模型的参数数量 = 每一层的参数数量之和</p>
 <p>每一层的参数数量需要由<strong>该层的规模</strong>和<strong>上一层的输出</strong>共同决定</p>
-<h2 id="全连接层"><a href="#全连接层" class="headerlink" title="全连接层"></a>全连接层</h2><p><code>input_shape: [batch_size, n_features]</code></p>
-<p><code>output_shape: [batch_size, n_units]</code></p>
+<h2 id="全连接层"><a href="#全连接层" class="headerlink" title="全连接层"></a>全连接层</h2><p>input_shape: <code>[batch_size, n_features]</code></p>
+<p>output_shape: <code>[batch_size, n_units]</code></p>
 <p>参数数量 = <code>n_features * n_units</code></p>
 <p>参数数量 = <code>n_features * n_units + n_units</code> （使用偏置）</p>
-<h2 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h2><h3 id="Conv1D"><a href="#Conv1D" class="headerlink" title="Conv1D"></a>Conv1D</h3><p><code>input_shape: [batch_size, max_steps, n_features]</code></p>
-<p><code>output_shape: [batch_size, new_steps, n_filters]</code></p>
+<h2 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h2><h3 id="Conv1D"><a href="#Conv1D" class="headerlink" title="Conv1D"></a>Conv1D</h3><p>input_shape: <code>[batch_size, max_steps, n_features]</code></p>
+<p>output_shape: <code>[batch_size, new_steps, n_filters]</code></p>
 <blockquote>
 <p>一般来说，<code>new_steps = max_steps</code>，不会在 Conv 层改变，而是通过 Pooling 层减小</p>
 </blockquote>
@@ -391,15 +391,52 @@
 <p><code>kernel_shape = [kernel_w, n_features, n_filters]</code></p>
 <p>参数数量 = <code>kernel_w * n_features * n_filters</code></p>
 <p>参数数量 = <code>kernel_w * n_features * n_filters + n_filters</code> （使用偏置）</p>
-<h3 id="Conv2D"><a href="#Conv2D" class="headerlink" title="Conv2D"></a>Conv2D</h3><p><code>input_shape: [batch_size, in_height, in_width, in_channels]</code></p>
-<p><code>output_shape: [batch_size, new_height, new_width, out_channels]</code></p>
+<h3 id="Conv2D"><a href="#Conv2D" class="headerlink" title="Conv2D"></a>Conv2D</h3><p>input_shape: <code>[batch_size, in_height, in_width, in_channels]</code></p>
+<p>output_shape: <code>[batch_size, new_height, new_width, out_channels]</code></p>
 <p><code>kernel_size = [kernel_h, kernel_w]</code></p>
 <p><code>kernel_shape = [kernel_h, kernel_w, n_features, n_filters]</code></p>
 <p>参数数量 = <code>kernel_h * kernel_w * n_features * n_filters</code></p>
 <p>参数数量 = <code>kernel_h * kernel_w * n_features * n_filters + n_filters</code> （使用偏置）</p>
 <h3 id="Conv3D"><a href="#Conv3D" class="headerlink" title="Conv3D"></a>Conv3D</h3><p>类似 Conv1D/Conv2D，略</p>
-<h2 id="RNN-层"><a href="#RNN-层" class="headerlink" title="RNN 层"></a>RNN 层</h2><p>还没搞懂…</p>
-<h3 id="普通的-RNN"><a href="#普通的-RNN" class="headerlink" title="普通的 RNN"></a>普通的 RNN</h3>
+<h2 id="RNN-层"><a href="#RNN-层" class="headerlink" title="RNN 层"></a>RNN 层</h2><p><del>具体有哪几部分参数不是非常理解</del><br>从参数数量回看，大概了解了 RNN 的参数情况：</p>
+<p>先看基础 RNN 的计算公式：</p>
+<p>$$ h^{(t)} = f(Ux^{(t)} + Wh^{(t-1)} + b)<br>$$</p>
+<p>可以看到参数有 3 个：$U$, $W$, $b$</p>
+<p>下面是公式中每个字母的 shape：</p>
+<pre><code>U: `[n_units, n_features]`
+x: `[n_features, 1]`
+W: `[n_units, n_units]`
+h: `[n_units, 1]`
+b: `[n_units, 1]`
+</code></pre><blockquote>
+<p>这里 $h$ 没有考虑 <code>batch_size</code>，实际上应该是 <code>[batch_size, n_units]</code></p>
+</blockquote>
+<p>有了以上的基础，LSTM 和 GRU 的参数有哪些，具体看它们的图模型就能知道了</p>
+<p>下面是使用 TF 的测试代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 参数</span></span><br><span class="line">batch_size = <span class="number">16</span></span><br><span class="line">max_steps = <span class="number">5</span></span><br><span class="line">n_features = <span class="number">32</span></span><br><span class="line">n_units = <span class="number">64</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试</span></span><br><span class="line">inputs = tf.placeholder(tf.float32, [batch_size, max_steps, n_features])</span><br><span class="line"></span><br><span class="line">cell = cell_fn(n_units)</span><br><span class="line"></span><br><span class="line">outputs, state = tf.nn.dynamic_rnn(cell, inputs, dtype=tf.float32)</span><br><span class="line"></span><br><span class="line">tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES)</span><br></pre></td></tr></table></figure></p>
+<h3 id="基础-RNN"><a href="#基础-RNN" class="headerlink" title="基础 RNN"></a>基础 RNN</h3><p><code>cell_fn = tf.nn.rnn_cell.BasicRNNCell</code></p>
+<p>测试结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[&lt;tf.Variable &apos;rnn/basic_rnn_cell/kernel:0&apos; shape=(96, 64) dtype=float32_ref&gt;,</span><br><span class="line"> &lt;tf.Variable &apos;rnn/basic_rnn_cell/bias:0&apos; shape=(64,) dtype=float32_ref&gt;]</span><br></pre></td></tr></table></figure></p>
+<p>参数数量 = <code>(n_features + n_units) * n_units + n_units</code></p>
+<blockquote>
+<p>根据 RNN 的计算公式 $f(Ux^{(t)} + Wh^{(t-1)} + b)$，参数有 3 个：$U$, $W$, $b$</p>
+<p>其中每个字母的形状如下：</p>
+</blockquote>
+<pre><code>U: `[n_units, n_features]`
+x: `[n_features, 1]`
+W: `[n_units, n_units]`
+h: `[n_units, 1]`
+b: `[n_units, 1]`
+</code></pre><h3 id="LSTM"><a href="#LSTM" class="headerlink" title="LSTM"></a>LSTM</h3><p><code>cell_fn = tf.nn.rnn_cell.BasicLSTMCell</code><br><code>cell_fn = tf.nn.rnn_cell.LSTMCell</code></p>
+<p>测试结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[&lt;tf.Variable &apos;rnn/basic_lstm_cell/kernel:0&apos; shape=(96, 256) dtype=float32_ref&gt;,</span><br><span class="line"> &lt;tf.Variable &apos;rnn/basic_lstm_cell/bias:0&apos; shape=(256,) dtype=float32_ref&gt;]</span><br></pre></td></tr></table></figure></p>
+<p>参数数量 = <code>(n_features + n_units) * (n_units * 4) + (n_units * 4)</code></p>
+<h3 id="GRU"><a href="#GRU" class="headerlink" title="GRU"></a>GRU</h3><p><code>cell_fn = tf.nn.rnn_cell.GRUCell</code></p>
+<p>测试结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[&lt;tf.Variable &apos;rnn/gru_cell/gates/kernel:0&apos; shape=(96, 128) dtype=float32_ref&gt;,</span><br><span class="line"> &lt;tf.Variable &apos;rnn/gru_cell/gates/bias:0&apos; shape=(128,) dtype=float32_ref&gt;,</span><br><span class="line"> &lt;tf.Variable &apos;rnn/gru_cell/candidate/kernel:0&apos; shape=(96, 64) dtype=float32_ref&gt;,</span><br><span class="line"> &lt;tf.Variable &apos;rnn/gru_cell/candidate/bias:0&apos; shape=(64,) dtype=float32_ref&gt;]</span><br></pre></td></tr></table></figure></p>
+<p>参数数量 = <code>(n_features + n_units) * (n_units * 3) + (n_units * 3)</code></p>
+<blockquote>
+<p>GRU 比 LSTM 少了一个门（将忘记门和输入门合成了一个单一的更新门），与结果一致</p>
+</blockquote>
+<h2 id="双向-rnn-lstm-gru"><a href="#双向-rnn-lstm-gru" class="headerlink" title="双向 rnn/lstm/gru"></a>双向 rnn/lstm/gru</h2><p>参数数量再乘 2 （当 cell_fw == cell_bw 时）</p>
+<p>测试代码:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 参数</span></span><br><span class="line">batch_size = <span class="number">16</span></span><br><span class="line">max_steps = <span class="number">5</span></span><br><span class="line">n_features = <span class="number">32</span></span><br><span class="line">n_units = <span class="number">64</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试</span></span><br><span class="line">inputs = tf.placeholder(tf.float32, [batch_size, max_steps, n_features])</span><br><span class="line"></span><br><span class="line">cell_fw = cell_fn(n_units)</span><br><span class="line">cell_bw = cell_fn(n_units)</span><br><span class="line"></span><br><span class="line">outputs, state = tf.nn.bidirectional_dynamic_rnn(cell_fw, cell_bw, inputs, dtype=tf.float32)</span><br><span class="line"></span><br><span class="line">tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES)</span><br></pre></td></tr></table></figure></p>
+
       
     </div>
 
@@ -640,7 +677,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参数来源"><span class="nav-number">1.</span> <span class="nav-text">参数来源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全连接层"><span class="nav-number">2.</span> <span class="nav-text">全连接层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积层"><span class="nav-number">3.</span> <span class="nav-text">卷积层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Conv1D"><span class="nav-number">3.1.</span> <span class="nav-text">Conv1D</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conv2D"><span class="nav-number">3.2.</span> <span class="nav-text">Conv2D</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conv3D"><span class="nav-number">3.3.</span> <span class="nav-text">Conv3D</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RNN-层"><span class="nav-number">4.</span> <span class="nav-text">RNN 层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#普通的-RNN"><span class="nav-number">4.1.</span> <span class="nav-text">普通的 RNN</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参数来源"><span class="nav-number">1.</span> <span class="nav-text">参数来源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全连接层"><span class="nav-number">2.</span> <span class="nav-text">全连接层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积层"><span class="nav-number">3.</span> <span class="nav-text">卷积层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Conv1D"><span class="nav-number">3.1.</span> <span class="nav-text">Conv1D</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conv2D"><span class="nav-number">3.2.</span> <span class="nav-text">Conv2D</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conv3D"><span class="nav-number">3.3.</span> <span class="nav-text">Conv3D</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RNN-层"><span class="nav-number">4.</span> <span class="nav-text">RNN 层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础-RNN"><span class="nav-number">4.1.</span> <span class="nav-text">基础 RNN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LSTM"><span class="nav-number">4.2.</span> <span class="nav-text">LSTM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GRU"><span class="nav-number">4.3.</span> <span class="nav-text">GRU</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双向-rnn-lstm-gru"><span class="nav-number">5.</span> <span class="nav-text">双向 rnn/lstm/gru</span></a></li></ol></div>
             
 
           </div>
