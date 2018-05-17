@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="多模态语义相关文献阅读 文献名称: Better Text Understanding Through Image-To-Text Transfer 摘要（Abstract）泛型文本嵌入（Embedding）已经成功地用于各种任务中。然而，它们往往是通过从纯文本语料库中捕获共现结构来学习的，从而限制了它们的泛化能力。本文探索了将视觉信息纳入文本表示的模型。基于 comprehensive abla">
+<meta name="keywords" content="NLP,多模态语义">
+<meta property="og:type" content="article">
+<meta property="og:title" content="（文献阅读）多模态语义之 Image-to-Text Transfer">
+<meta property="og:url" content="http://yoursite.com/2018/05/14/NLP-多模态语义-Kurach2017/index.html">
+<meta property="og:site_name" content="huay&#39;s Blog">
+<meta property="og:description" content="多模态语义相关文献阅读 文献名称: Better Text Understanding Through Image-To-Text Transfer 摘要（Abstract）泛型文本嵌入（Embedding）已经成功地用于各种任务中。然而，它们往往是通过从纯文本语料库中捕获共现结构来学习的，从而限制了它们的泛化能力。本文探索了将视觉信息纳入文本表示的模型。基于 comprehensive abla">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/NLP-多模态语义-Kurach2017/从图像空间导出句子相似度.png">
+<meta property="og:image" content="http://yoursite.com/images/NLP-多模态语义-Kurach2017/模型基本结构.png">
+<meta property="og:image" content="http://yoursite.com/images/NLP-多模态语义-Kurach2017/数据集.png">
+<meta property="og:image" content="http://yoursite.com/images/NLP-多模态语义-Kurach2017/结果表1.png">
+<meta property="og:image" content="http://yoursite.com/images/NLP-多模态语义-Kurach2017/结果表2.png">
+<meta property="og:image" content="http://yoursite.com/images/NLP-多模态语义-Kurach2017/影响-encoder.png">
+<meta property="og:image" content="http://yoursite.com/images/NLP-多模态语义-Kurach2017/影响-loss.png">
+<meta property="og:image" content="http://yoursite.com/images/NLP-多模态语义-Kurach2017/影响-dataset.png">
+<meta property="og:image" content="http://yoursite.com/images/NLP-多模态语义-Kurach2017/影响-embedding.png">
+<meta property="og:updated_time" content="2018-05-16T07:31:08.581Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="（文献阅读）多模态语义之 Image-to-Text Transfer">
+<meta name="twitter:description" content="多模态语义相关文献阅读 文献名称: Better Text Understanding Through Image-To-Text Transfer 摘要（Abstract）泛型文本嵌入（Embedding）已经成功地用于各种任务中。然而，它们往往是通过从纯文本语料库中捕获共现结构来学习的，从而限制了它们的泛化能力。本文探索了将视觉信息纳入文本表示的模型。基于 comprehensive abla">
+<meta name="twitter:image" content="http://yoursite.com/images/NLP-多模态语义-Kurach2017/从图像空间导出句子相似度.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/14/NLP-多模态语义-Kurach2017/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>（文献阅读）多模态语义之 Image-to-Text Transfer | huay's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">huay's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/NLP-多模态语义-Kurach2017/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="huay">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="huay's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">（文献阅读）多模态语义之 Image-to-Text Transfer
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+                
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-14T14:58:05+08:00">2018-05-14</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>多模态语义</strong>相关文献阅读</p>
+<p>文献名称: <a href="https://arxiv.org/abs/1705.08386" target="_blank" rel="noopener">Better Text Understanding Through Image-To-Text Transfer</a></p>
+<h2 id="摘要（Abstract）"><a href="#摘要（Abstract）" class="headerlink" title="摘要（Abstract）"></a>摘要（Abstract）</h2><p>泛型文本嵌入（Embedding）已经成功地用于各种任务中。然而，它们往往是通过从纯文本语料库中捕获共现结构来学习的，从而限制了它们的泛化能力。本文探索了将视觉信息纳入文本表示的模型。基于 comprehensive ablation studies（控制变量法），我们提出了一个概念简单，但性能良好的结构。在一套既定的基准上，它优于以往的多模态方法。我们还改进了图像相关文本数据集（image-related text datasets）的最新成果，使用数量级较少的数据。</p>
+<a id="more"></a>
+<hr>
+<h2 id="前言（Introduction）"><a href="#前言（Introduction）" class="headerlink" title="前言（Introduction）"></a>前言（Introduction）</h2><p>如何有效表示文本数据一直是 NLP 的研究重点。许多模型能够通过有监督的端到端结构来直接学习。然而，这往往需要大量的标记数据，这意味着高昂的成本，甚至在一些领域无法做到。一个常见的解决办法是重用预先训练过的 embeddings。</p>
+<p>这一领域的大量工作集中在从纯文本数据中训练 embeddings。然而，有许多其他类型的关系和共现是很难从纯文本中理解的。这些关系有更自然的表现方式，比如图像。</p>
+<p>比如，从图像空间中的相似性度量以及（图像，句子）对中，可以导出句子的相似性度量，如图所示。</p>
+<p><img src="/images/NLP-多模态语义-Kurach2017/从图像空间导出句子相似度.png" alt=""></p>
+<p>这两幅图像在视觉空间中是比较接近的，这可以通过 CNN 来量化。他们的描述传达了相同的概念，但使用了<strong>完全不同的词汇</strong>。该方法利用图像的视觉属性知识，提高了对文本的理解。</p>
+<p>本文研究了如何从文本图像对构建句子嵌入（Sentence Embedding），这些文本图像对在句子相似度量方面是很好的。这个工作拓展自之前的研究 [12] 和 [15]</p>
+<p>本文提出了一个概念简单但性能良好的模型——Visually Enhanced Text Embeddings（VETE），该模型利用图像中的<strong>视觉信息</strong>来提高 Sentence Embedding 的质量。</p>
+<p>模型的结构很简单：使用预训练的卷积模型计算 image embedding，sentence embedding 则通过归一化词向量的和得到。然后对两者进行某种组合。</p>
+<p>这个模型最大的优点在于使用很少的训练数据就达到了目前的最佳结果。这表明来自图像的信息可以显著提高 text embedding 的质量。</p>
+<p>本文工作小结：</p>
+<ul>
+<li>提出了一种简单的多模式模型，其在各种文本相似性任务上的表现胜过了之前的图像-文本方法，且使用了更少的数据进行训练</li>
+<li>本文对图像到文本的迁移（image-to-text transfer）、不同的模型类型（different model<br>types）、文本编码器（text encoders）、损失类型（loss types）和数据集（datasets）进行了全面的研究。</li>
+<li>直接学习 sentence embedding 优于词向量组合的方式。</li>
+</ul>
+<h2 id="相关工作（Related-Work）"><a href="#相关工作（Related-Work）" class="headerlink" title="相关工作（Related Work）"></a>相关工作（Related Work）</h2><p>多数工作的研究方向是如何将多模态数据（主要是 text-image 对）应用到相关的任务中，比如图像描述（image captioning）、图像检索（image retrieval）等，这些任务需要模型同时了解 text 和 image 相关的知识。</p>
+<p>[12]拓展了 skip-gram 算法，并使用 max margin loss 来向词向量中注入图像信息（具体参考原文）。[12]证明了加入视觉信息可以增强词嵌入的表达，具体体现在单词相似性任务上有更好的性能。</p>
+<p>[11]也使用了 max margin loss 来 “co-embed” images 和 text。并且得到了一些类似词嵌入的算术性质：”image of a blue car” - “blue” + “red” = “image of a red car”。</p>
+<p>最近的一些工作开始从文本相似性的角度探究图像信息对于 phrase embeddings 的提升（从 word 到 phrase）。比如，[15]使用 RNN 来学习基于词嵌入的 phrase embedding，并提出了三个模型。本文使用[15]中的模型A 作为 BaseLine。</p>
+<h2 id="本文模型-VETE-Models"><a href="#本文模型-VETE-Models" class="headerlink" title="本文模型 - VETE Models"></a>本文模型 - VETE Models</h2><p>模型的目标是在图像和文本表示之间直接传递知识，其主要目的是找到<strong>可重用</strong>的句子嵌入。</p>
+<p>模型的输入是（图像，文本）对，其中文本是一个描述图片的句子。</p>
+<p><img src="/images/NLP-多模态语义-Kurach2017/模型基本结构.png" alt="模型基本结构"></p>
+<p>图像被送入一个预训练的 CNN 模型 $E_{img}$ (encoder of image embedding)。而句子由模型 $E_{txt}$ 进行编码。因为 image embedding 的维度通常会比 sentence 的大很多，所以 image embedding 需要经过一个<strong>仿射变换矩阵</strong> $W$ 来修改其输出维度以匹配 sentence embedding。最后将两个 embeddings 分为两组：matching pairs 和 incorrect pairs。分别计算它们的相似度，并以 Pearson correlation（皮尔逊系数）作为损失函数。其中只有绿色的部分会被训练。</p>
+<blockquote>
+<p>$E_{txt}$ 中的 BOW 指的是 normalized sum of vectors，而不是传统的词袋模型；RNN 基于 LSTM 或 GRU；CNN 用的是 [9] 中的结构；实际模型分为 VETE-BOW, VETE-RNN 和 VETE-CNN。</p>
+<p>$E_{img}$ 使用的是 InceptionV3，输入为 300x300 的图像，输出一个维度为 2048 的特征向量</p>
+</blockquote>
+<p>本文使用 consine 作为相似度计算函数 $sim(e_i,e_t)$。模型的目标是最大化该相似度如果 image 与 sentence 是匹配的，反之最小化该值。但这不是模型的目标函数，目标函数为最大化皮尔逊系数 $p(x,y)$，其中</p>
+<p>$$ x = [sim(I_1,S_1),…,sim(I_m,S_m); sim(I_1,S_{j1}),…,sim(I_m,S_{jm})]<br>$$</p>
+<blockquote>
+<p>$j1,…jm$ 为打乱的 $1,…,m$</p>
+</blockquote>
+<p>$$ y = [1,…,1;-1,…,-1]<br>$$</p>
+<h2 id="实验（Experiments）"><a href="#实验（Experiments）" class="headerlink" title="实验（Experiments）"></a>实验（Experiments）</h2><h3 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h3><p>本文使用了 3 个数据集：MS COCO, SBU 和 Pinterest5M</p>
+<p><img src="/images/NLP-多模态语义-Kurach2017/数据集.png" alt=""></p>
+<p>其中 MS COCO 的描述比较正式，而 SUB 和 Pin 的描述来源于非正式的帖子；MS COCO 和 Pin 对每个图片有多个描述，本文只保留其中一个，以防这些文本在匹配时只使用图像信息。</p>
+<h4 id="MS-COCO"><a href="#MS-COCO" class="headerlink" title="MS COCO"></a>MS COCO</h4><p>80 个类别，每幅图像有 5 个高质量的描述。本文使用的是 MS COCO 2014，train/validation/test 的划分参考[23][28]，分别包含 586k/10k/20k examples。</p>
+<h4 id="SBU"><a href="#SBU" class="headerlink" title="SBU"></a>SBU</h4><p>1M image-caption pairs collected from Flickr, with only one caption per image. 本文随机将数据划分成 900k/50k/50k 作为 train/validation/test</p>
+<h4 id="Pinterest5M"><a href="#Pinterest5M" class="headerlink" title="Pinterest5M"></a>Pinterest5M</h4><p>该数据集来自[15]，实际只有 3.9M 的图片可下载，本文随机将数据划分成 3.8M/50k/50k 作为 train/validation/test</p>
+<p>所有数据都做了 lower 处理，并使用  Stanford Tokenizer [14] 序列化。</p>
+<h3 id="超参数选择（Hyperparameter-selection）"><a href="#超参数选择（Hyperparameter-selection）" class="headerlink" title="超参数选择（Hyperparameter selection）"></a>超参数选择（Hyperparameter selection）</h3><p>embeddings_size = 128<br>epoch = 10(COCO, SBU) or 5(Pinterest5M)</p>
+<h3 id="评价（Evaluation）"><a href="#评价（Evaluation）" class="headerlink" title="评价（Evaluation）"></a>评价（Evaluation）</h3><p>本文的目的是构建一个良好的 text embedding，能够融合相关的图像信息。为了评价知识从图像到文本的转移效果，本文使用了一组来自2014和2015年 SemEval 比赛的文本语义相似数据集 [18]。</p>
+<p>此外，还使用了两个定制数据集：COCO-Test 和 Pin-Test。它们分别来自 COCO 和 Pinterest5M，从中随机抽取 1000 条语义相关的标题(来自同一图像)和 1000 条来自不同图像的非相关标题。</p>
+<h3 id="结果（Results）"><a href="#结果（Results）" class="headerlink" title="结果（Results）"></a>结果（Results）</h3><p><img src="/images/NLP-多模态语义-Kurach2017/结果表1.png" alt=""></p>
+<p>表1 给出了仅由 COCO 数据训练的结果（在下一节给出了不同数据集对结果的影响）。</p>
+<p>注意：表中的模型不是同级的，其中 Word2Vec 用于训练 word embedding，PureTextRnn 用于训练 sentence embedding。PinModelA[15] 是另一个与本文同目标的模型，希望在语义理解中加入视觉信息。</p>
+<p><img src="/images/NLP-多模态语义-Kurach2017/结果表2.png" alt=""></p>
+<p>表2 列出了使用其他模型在更大的纯文本语料上训练后的结果（除了PinModelA），可以看到起结果与只使用 COCO 文本的 VETE-BOW 模型相当。</p>
+<p>这个比较主要想表明的是通过<strong>加入图像信息</strong>，可以<strong>减少对文本数据的依赖</strong>。侧面体现了图像信息可以加强文本的表示。</p>
+<blockquote>
+<p>R 和 NR 指的是使用的 vocabulary 规模不同，前者表示只使用 COCO 中出现的单词，NR 表示使用全语料中单词；词汇缺少的影响主要体现在 Pin-Test 中，有 16.5% 的词不在 COCO 语料中。</p>
+</blockquote>
+<h2 id="Ablation-studies"><a href="#Ablation-studies" class="headerlink" title="Ablation studies"></a>Ablation studies</h2><p>这一节主要讲的是不同因素对模型的影响，相当于控制变量。</p>
+<p>主要讲了以下几个因素：</p>
+<ol>
+<li><p>文本部分的 Encoder</p>
+<p> <img src="/images/NLP-多模态语义-Kurach2017/影响-encoder.png" alt=""></p>
+</li>
+<li><p>Loss 函数</p>
+<p> <img src="/images/NLP-多模态语义-Kurach2017/影响-loss.png" alt=""></p>
+</li>
+<li><p>数据集</p>
+<p> <img src="/images/NLP-多模态语义-Kurach2017/影响-dataset.png" alt=""></p>
+</li>
+<li><p>句向量与词向量</p>
+<p> 以上的实验都是基于 sentence-level 的 embedding 产生的，而以往的研究都是试图向 word-level 的 embedding 中注入图像信息。这一节主要的目的就是比较这两种方案的优劣。</p>
+<p> <img src="/images/NLP-多模态语义-Kurach2017/影响-embedding.png" alt=""></p>
+<p> 本文分析了 sentence embedding 的优势：单独训练 word embedding 会<strong>迫使每个词都接近相应的图像</strong>，而 sentence embedding 则提供了使 word embedding 互补的机会，即每个词都解释了图像的一部分，并捕捉到了共现（co-occurences）。</p>
+</li>
+</ol>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li>[9] Y. Kim. Convolutional neural networks for sentence classification.</li>
+<li>[11] R. Kiros, R. Salakhutdinov, and R. S. Zemel. Unifying visual-semantic embeddings with multimodal neural language models.</li>
+<li>[12] A. Lazaridou, N. T. Pham, and M. Baroni. Combining language and vision with a multimodal skip-gram model. </li>
+<li>[14] The stanford corenlp natural language processing toolkit. <a href="https://github.com/stanfordnlp/CoreNLP" target="_blank" rel="noopener">https://github.com/stanfordnlp/CoreNLP</a></li>
+<li>[15] J. Mao, J. Xu, K. Jing, and A. L. Yuille. Training and evaluating multimodal word embeddings with large-scale web annotated images.</li>
+<li>[18] P. Nakov, T. Zesch, D. Cer, and D. Jurgens, editors. Proceedings of the 9th International Workshop on Semantic Evaluation (SemEval 2015)</li>
+<li>[23] C. Shallue. Show and Tell: A Neural Image Caption Generator. <a href="https://github.com/tensorflow/models/tree/master/research/im2txt" target="_blank" rel="noopener">https://github.com/tensorflow/models/tree/master/research/im2txt</a></li>
+<li>O. Vinyals, A. Toshev, S. Bengio, and D. Erhan. Show and tell: Lessons learned from the 2015 MSCOCO image captioning challenge.</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+            <a href="/tags/多模态语义/" rel="tag"># 多模态语义</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/14/算法-海量数据TopK/" rel="next" title="（经典算法问题）海量数据 Top K">
+                <i class="fa fa-chevron-left"></i> （经典算法问题）海量数据 Top K
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/16/NLP-句子建模-Wieting2016/" rel="prev" title="（文献阅读）通用的 paraphrastic sentence embedding">
+                （文献阅读）通用的 paraphrastic sentence embedding <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="huay" />
+            
+              <p class="site-author-name" itemprop="name">huay</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/imhuay" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:imhuay@163.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.kaggle.com/imhuay/kernels" target="_blank" title="Kaggle"><i class="fa fa-fw fa-cubes"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://stackoverflow.com/users/8000475/imhuay" target="_blank" title="StackOverflow"><i class="fa fa-fw fa-stack-overflow"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.nowcoder.com/profile/5608104" target="_blank" title="牛客"><i class="fa fa-fw fa-vk"></i></a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要（Abstract）"><span class="nav-number">1.</span> <span class="nav-text">摘要（Abstract）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言（Introduction）"><span class="nav-number">2.</span> <span class="nav-text">前言（Introduction）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关工作（Related-Work）"><span class="nav-number">3.</span> <span class="nav-text">相关工作（Related Work）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文模型-VETE-Models"><span class="nav-number">4.</span> <span class="nav-text">本文模型 - VETE Models</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验（Experiments）"><span class="nav-number">5.</span> <span class="nav-text">实验（Experiments）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据集"><span class="nav-number">5.1.</span> <span class="nav-text">数据集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MS-COCO"><span class="nav-number">5.1.1.</span> <span class="nav-text">MS COCO</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SBU"><span class="nav-number">5.1.2.</span> <span class="nav-text">SBU</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pinterest5M"><span class="nav-number">5.1.3.</span> <span class="nav-text">Pinterest5M</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#超参数选择（Hyperparameter-selection）"><span class="nav-number">5.2.</span> <span class="nav-text">超参数选择（Hyperparameter selection）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#评价（Evaluation）"><span class="nav-number">5.3.</span> <span class="nav-text">评价（Evaluation）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果（Results）"><span class="nav-number">5.4.</span> <span class="nav-text">结果（Results）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ablation-studies"><span class="nav-number">6.</span> <span class="nav-text">Ablation studies</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">7.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">huay</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.1.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
