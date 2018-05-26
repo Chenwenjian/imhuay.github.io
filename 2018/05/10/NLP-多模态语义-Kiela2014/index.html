@@ -110,7 +110,7 @@
 <meta property="og:image" content="http://yoursite.com/images/NLP-多模态语义-Kiela2014/多模态词向量.png">
 <meta property="og:image" content="http://yoursite.com/images/NLP-多模态语义-Kiela2014/实验结果.png">
 <meta property="og:image" content="http://yoursite.com/images/NLP-多模态语义-Kiela2014/错误分析.png">
-<meta property="og:updated_time" content="2018-05-16T07:32:15.982Z">
+<meta property="og:updated_time" content="2018-05-26T05:35:23.849Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="（文献阅读）Image embedding 和 Multi-Modal Semantics">
 <meta name="twitter:description" content="多模态语义相关文献阅读 文献名称: Learning Image Embeddings using Convolutional Neural Networks for Improved Multi-Modal Semantics">
@@ -442,7 +442,7 @@
 </ul>
 <p>本文的模型保持了模式的分离，并遵循标准的多模态方法，在一个单一的语义空间模型中将语言和视觉表示连接在一起。这么做的优点是可以为不同的模式提供单独的数据来源。</p>
 <p>本文直接从图像中学习表示，而不是以更高层次的表示作为起点（比如视觉词袋模型，BOVW）</p>
-<h3 id="深度卷积网络"><a href="#深度卷积网络" class="headerlink" title="深度卷积网络"></a>深度卷积网络</h3><p>最近的一些列研究表明，从 CNN 网络中提取的图像特征（image embedding, visual embedding）非常有效，在很多任务上超过了之前最好的模型 (Razavian et al., 2014)</p>
+<h3 id="深度卷积网络"><a href="#深度卷积网络" class="headerlink" title="深度卷积网络"></a>深度卷积网络</h3><p>最近的一系列研究表明，从 CNN 网络中提取的图像特征（image embedding, visual embedding）非常有效，在很多任务上超过了之前最好的模型 (Razavian et al., 2014)</p>
 <h2 id="改进-Multi-Modal-Representations"><a href="#改进-Multi-Modal-Representations" class="headerlink" title="改进 Multi-Modal Representations"></a>改进 Multi-Modal Representations</h2><p>多模态词向量模型</p>
 <p><img src="/images/NLP-多模态语义-Kiela2014/多模态词向量.png" alt=""></p>
 <h3 id="视觉特征（Perceptual-Representations）"><a href="#视觉特征（Perceptual-Representations）" class="headerlink" title="视觉特征（Perceptual Representations）"></a>视觉特征（Perceptual Representations）</h3><p>标准/传统的多模态表示中的视觉部分一般都是使用的 BOVW 特征（bag-of-visual-words，视觉词袋模型） (Sivic and Zisserman, 2003)</p>
@@ -450,7 +450,7 @@
 <p>本文使用的预训练 CNN 网络是 AlexNet（8层） (Krizhevsky et al., 2012)，使用前 7 层（CNN）来抽取图像特征</p>
 <blockquote>
 <p>VGG(2014), GoogLeNet(2014), ResNet(2015), …</p>
-<p>对于某个CV的问题，选一个优秀的核心网络作为基础，然后 fine-tune 是一个常见的思路（套路）</p>
+<p>对于某个CV的问题，选一个优秀的核心网络作为基础，然后 fine-tune 是一个常见的思路</p>
 </blockquote>
 <p>本文考虑了两种方法来处理（aggregate）每张图的特征向量</p>
 <ol>

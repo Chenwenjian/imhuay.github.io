@@ -107,10 +107,12 @@
 <meta property="og:site_name" content="huay&#39;s Blog">
 <meta property="og:description" content="句子建模相关文献阅读 文献名称：Towards Universal Paraphrastic Sentence Embeddings 摘要（ABSTRACT）本文研究了从释义数据库中有监督地学习通用释义句嵌入（paraphrastic sentence embeddings）的问题。本文比较了六种结构，根据标注文本相似性数据集对它们进行评价，这些数据集来自与训练数据相同的分布和广泛的其他领域。结果">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-17T03:01:41.443Z">
+<meta property="og:image" content="http://yoursite.com/images/NLP-句子建模-Wieting2016/模型6-LSTM.png">
+<meta property="og:updated_time" content="2018-05-18T12:36:24.002Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="（文献阅读）通用的 paraphrastic sentence embedding">
 <meta name="twitter:description" content="句子建模相关文献阅读 文献名称：Towards Universal Paraphrastic Sentence Embeddings 摘要（ABSTRACT）本文研究了从释义数据库中有监督地学习通用释义句嵌入（paraphrastic sentence embeddings）的问题。本文比较了六种结构，根据标注文本相似性数据集对它们进行评价，这些数据集来自与训练数据相同的分布和广泛的其他领域。结果">
+<meta name="twitter:image" content="http://yoursite.com/images/NLP-句子建模-Wieting2016/模型6-LSTM.png">
 
 
 
@@ -385,6 +387,58 @@
 <p>本文探讨了可以将任意单词序列编码成向量的组合模型，其生成的句向量表示在相似含义的句子上有较高的余弦相似性；重要的是，它可以方便地迁移到其他领域。</p>
 <p>本文考虑了基于神经网络的六种组成结构，并基于来自 noisy phrase pairs from the Paraphrase Database (PPDB; Ganitkevitch et al., 2013) 来对它们进行训练。</p>
 <p>这些结构包括从简单的求和模型到复杂的 LSTMs。</p>
+<p>本文的一个重要发现是，将 vector averaging 加入模型并重新训练词向量，要比直接使用那些预训练好的词向量效果更好。</p>
+<blockquote>
+<p>之前也看到不少，说直接将词向量<strong>求和/平均</strong>来获取 sentence embedding；但一直默认的是直接使用训练好的词向量，没意识到将<strong>求和/平均</strong>加入模型重新训练词向量。</p>
+</blockquote>
+<p>除了在一系列实验上取得了不错的结果外，本文还演示了如何将利用 PPDB 语料训练的 sentence embeddings 与有监督任务结合起来，并利用他们作为一个 black box feature extractor。</p>
+<h2 id="相关工作（RELATED-WORK）"><a href="#相关工作（RELATED-WORK）" class="headerlink" title="相关工作（RELATED WORK）"></a>相关工作（RELATED WORK）</h2><p>最近很多工作开始关注如何学习 word sequences 的嵌入表示。他们使用的主要方法是对给定的词向量进行组合（compositionality）。因此，sentence embedding 的进展跟<strong>词向量</strong>是分不开的，从早期的统计特征（bi-gram）到现在大势所趋的神经网络。一些相关工作：neural bag-of-words models [1] (Kalchbrenner et al., 2014), deep averaging networks (DANs) [2] (Iyyer et al., 2015), …</p>
+<blockquote>
+<p>这里我只列出了我比较感兴趣的</p>
+</blockquote>
+<p>本文主要比较了 6 种结构（architectures）：</p>
+<ol>
+<li>word averaging</li>
+<li>word averaging followed by a single linear projection</li>
+<li>DANs [2]</li>
+<li>RNN</li>
+<li>LSTM without output gate</li>
+<li>LSTM with output gate</li>
+</ol>
+<p>上述大部分工作都是在有监督的背景下学习组合模型（compositional models）。也就是说，”a training set is provided with annotations, and the composition function is learned for the purposes of optimizing an objective function based on those annotations.”</p>
+<blockquote>
+<p>注意区分 composition function 和 objective function</p>
+</blockquote>
+<p>而本文主要关注的是构建领域无关的 word sequences embeddings。一些相关工作：skip-thought vectors [3] (Kiros et al., 2015), … 这些工作提供了一种通用的表示方法，能够为文本分类或句子相似性任务提供<strong>某种特征</strong>。比如 skip-thought vectors 试图根据上下文来捕获句子间的相似性，而本文希望获得句子间的 paraphrastic similarity（释义相似性），即判断两句话是否有相同的含义。</p>
+<blockquote>
+<p>释义识别（Paraphrase Identification）任务: <a href="https://aclweb.org/aclwiki/Paraphrase_Identification_(State_of_the_art)" target="_blank" rel="noopener">https://aclweb.org/aclwiki/Paraphrase_Identification_(State_of_the_art)</a></p>
+</blockquote>
+<p>本文的学习公式借鉴了大量有关学习输入表示的工作，以最大限度地提高学习空间中的相似性。(Our learning formulation draws from a large body of related work on learning input representations in order to maximize similarity in the learned space)</p>
+<blockquote>
+<p>Weston et al., 2010; Yih et al., 2011; Huang et al., 2013; Hermann &amp; Blunsom, 2014; Socher et al., 2014; Faruqui &amp; Dyer, 2014; Bordes et al., 2014b;a; Lu et al., 2015; Wieting et al., 2015</p>
+</blockquote>
+<h2 id="模型（MODELS-AND-TRAINING）"><a href="#模型（MODELS-AND-TRAINING）" class="headerlink" title="模型（MODELS AND TRAINING）"></a>模型（MODELS AND TRAINING）</h2><p>本文的目标是将句子嵌入（embed）到一个低维空间，使空间中的余弦相似性对应于序列之间的<strong>解释关系的强度</strong>。</p>
+<p>记单词序列 $x=[x_1,x_2,…x_n]$</p>
+<h3 id="模型-1"><a href="#模型-1" class="headerlink" title="模型 1"></a>模型 1</h3><p>词向量求平均，训练参数为词向量矩阵 $W_w$，本文记该模型为 $g_{paragram-phrase}$</p>
+<p>$$ g_{paragram-phrase}(x) = \frac{1}{n} \sum_i^n W_w^{x_i}<br>$$</p>
+<p>$$ squash(x) = \frac{\left| x \right| ^2}{\left| x \right| ^2 + epsilon} \frac{x}{\left| x \right|}<br>$$</p>
+<h3 id="模型-2"><a href="#模型-2" class="headerlink" title="模型 2"></a>模型 2</h3><p>在模型 1 的基础上添加一个投影矩阵（projection matrix），记为 $g_{proj}$</p>
+<p>$$ g_{proj} = W_p (\frac{1}{n} \sum_i^n W_w^{x_i}) + b<br>$$</p>
+<h3 id="模型-3"><a href="#模型-3" class="headerlink" title="模型 3"></a>模型 3</h3><p>来自 Deep Averaging Network(DAN) [2]，该模型可以看做是模型 2 使用多个隐藏层及非线性函数的推广。</p>
+<h3 id="模型-4"><a href="#模型-4" class="headerlink" title="模型 4"></a>模型 4</h3><p>标准 RNN</p>
+<p>$$ h_t = f(W_x W_w^{x_t} + W_h h_{t-1} + b)<br>$$</p>
+<p>$$ g_{rnn}(x) = h_{-1}<br>$$</p>
+<p>其中 $W_x$ 和 $W_h$ 为参数矩阵，$h_{-1}$ 表示词序列中最后一个单词的隐向量（hidden vector）</p>
+<h3 id="模型-5"><a href="#模型-5" class="headerlink" title="模型 5"></a>模型 5</h3><p>一个特殊的 RNN——identity-RNN：In the identity-RNN, the weight matrices are initialized to identity, the bias is initialized to zero, and the activation is the identity function. We divide the final output vector of the identity-RNN by the number of tokens in the sequence. Thus, before any updates to the parameters, the identity-RNN simply averages the word embeddings. We also regularize the identity-RNN parameters to their initial values.</p>
+<p>该模型的思想：The idea is that, with high regularization, the identity-RNN is simply averaging word embeddings. However, it is a richer architecture and can take into account <strong>word order</strong> and hopefully improve upon the averaging baseline.</p>
+<h3 id="模型-6"><a href="#模型-6" class="headerlink" title="模型 6"></a>模型 6</h3><p>LSTM</p>
+<p><img src="/images/NLP-句子建模-Wieting2016/模型6-LSTM.png" alt=""></p>
+<p>本文注意到是否使用 output gate 会影响结果，因此该模型有两个版本，分别为是否使用 $o_t$。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li>[1] Kalchbrenner, Nal, Grefenstette, Edward, and Blunsom, Phil. A convolutional neural network for modelling sentences.</li>
+<li>[2] Iyyer, Mohit, Manjunatha, Varun, Boyd-Graber, Jordan, and Daum´e III, Hal. Deep unordered composition rivals syntactic methods for text classification. </li>
+<li>[3] Kiros, Ryan, Zhu, Yukun, Salakhutdinov, Ruslan, Zemel, Richard S, Torralba, Antonio, Urtasun, Raquel, and Fidler, Sanja. Skip-thought vectors.</li>
+</ul>
 
       
     </div>
@@ -429,6 +483,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/26/hello-my-bolg/" rel="prev" title="Hello! My Blog">
+                Hello! My Blog <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -630,7 +688,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要（ABSTRACT）"><span class="nav-number">1.</span> <span class="nav-text">摘要（ABSTRACT）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言（INTRODUCTION）"><span class="nav-number">2.</span> <span class="nav-text">前言（INTRODUCTION）</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要（ABSTRACT）"><span class="nav-number">1.</span> <span class="nav-text">摘要（ABSTRACT）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言（INTRODUCTION）"><span class="nav-number">2.</span> <span class="nav-text">前言（INTRODUCTION）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关工作（RELATED-WORK）"><span class="nav-number">3.</span> <span class="nav-text">相关工作（RELATED WORK）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型（MODELS-AND-TRAINING）"><span class="nav-number">4.</span> <span class="nav-text">模型（MODELS AND TRAINING）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模型-1"><span class="nav-number">4.1.</span> <span class="nav-text">模型 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型-2"><span class="nav-number">4.2.</span> <span class="nav-text">模型 2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型-3"><span class="nav-number">4.3.</span> <span class="nav-text">模型 3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型-4"><span class="nav-number">4.4.</span> <span class="nav-text">模型 4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型-5"><span class="nav-number">4.5.</span> <span class="nav-text">模型 5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型-6"><span class="nav-number">4.6.</span> <span class="nav-text">模型 6</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
