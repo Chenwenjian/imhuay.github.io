@@ -114,7 +114,7 @@
 <meta property="og:image" content="http://yoursite.com/images/DL-Attention与RNN/ntm-write.png">
 <meta property="og:image" content="http://yoursite.com/images/DL-Attention与RNN/ntm-attention.png">
 <meta property="og:image" content="http://yoursite.com/images/DL-Attention与RNN/ntm-repeat-exp.png">
-<meta property="og:updated_time" content="2018-05-30T13:29:16.675Z">
+<meta property="og:updated_time" content="2018-05-30T13:33:57.993Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="（转载）Attention 与 RNN （一）- 神经图灵机">
 <meta name="twitter:description" content="RNN 是深度学习的基础之一，主要用于处理文本、音频和视频等序列数据。RNN 可以将序列归纳成一个高层次的理解，从而进行序列注释（annotate sequences），甚至序列生成（generate new sequences）。 在 RNN 的发展过程中，出现了许多更加强大的变体，比如 LSTM。这些模型在翻译、语音识别和图像描述等许多任务中取得了显著的效果。 本文主要介绍了 4 个新的 RN">
@@ -395,7 +395,7 @@
 <p>原文地址: <a href="https://distill.pub/2016/augmented-rnns/" target="_blank" rel="noopener">https://distill.pub/2016/augmented-rnns/</a></p>
 <h2 id="Neural-Turing-Machines-神经图灵机"><a href="#Neural-Turing-Machines-神经图灵机" class="headerlink" title="Neural Turing Machines (神经图灵机)"></a>Neural Turing Machines (神经图灵机)</h2><p>NTM [2]将 RNN 与一个外部<strong>记忆/内存</strong>模块（external memory bank）组合在一起，而这个记忆模块实际上是一组向量（向量相当于神经网络中的自然语言）。</p>
 <p><img src="/images/DL-Attention与RNN/ntm-memory.png" alt=""></p>
-<p>既然是一块“内存”，自然存在 Read/Write 两个操作。难点在于如何区分这两个操作（make them differentiable）。具体来说，我们想区分读写的位置（location ），这样就可以学习从哪读取，以及写入到什么位置。因为内存地址本质上是离散化的，因此这个问题比较棘手。</p>
+<p>既然是一块“内存”，自然存在 Read/Write 两个操作。难点在于如何区分这两个操作（make them differentiable）。具体来说，我们想区分读写的位置（location），这样就可以学习从哪读取，以及写入到什么位置。因为内存地址本质上是离散化的，因此这个问题比较棘手。</p>
 <p>NMT 使用了一个聪明的方法来解决这个问题：它在每一步以<strong>不同的程度</strong>来读/写各个位置。</p>
 <h3 id="读取-amp-写入"><a href="#读取-amp-写入" class="headerlink" title="读取 &amp; 写入"></a>读取 &amp; 写入</h3><p>以读取为例，NTM 模型会输出一个<strong>注意力分布（attention distribution）</strong>，来描述我们对不同位置的<strong>关注度</strong>。因此，读取的结果实际上是一个加权和（weighted sum）。</p>
 <p>示例 1</p>
@@ -929,6 +929,29 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
   
 
 
